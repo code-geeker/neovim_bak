@@ -1,8 +1,10 @@
 
 call plug#begin('~/.config/nvim/plugged')
+
 Plug 'dracula/vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'benekastah/neomake', { 'on': ['Neomake'] }
 Plug 'Shougo/context_filetype.vim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -10,6 +12,8 @@ Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'honza/vim-snippets'
 Plug 'Shougo/vimshell.vim'
+
+Plug 'tpope/vim-sleuth'
 
 Plug 'carlitux/deoplete-ternjs'
 Plug 'majutsushi/tagbar'
@@ -32,6 +36,7 @@ Plug 'mhinz/vim-startify'
 
 
 Plug 'Raimondi/delimitMate'
+
 Plug 'ap/vim-css-color'
 Plug 'gregsexton/MatchTag'
 Plug 'airblade/vim-rooter'
@@ -50,6 +55,7 @@ Plug 'alvan/vim-php-manual'
 Plug 'StanAngeloff/php.vim', { 'for': 'php' }
 Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' }
 Plug 'modess/vim-phpcolors'
+"Plug 'rafaelndev/deoplete-laravel-plugin', {'for': ['php'], 'do': 'composer install'}
 
 Plug 'YankRing.vim'
 Plug 'rking/ag.vim'
@@ -87,9 +93,9 @@ let g:deoplete#omni#input_patterns = {}
 let g:deoplete#omni#input_patterns.php =
 			\ '\w+|[^. \t]->\w*|\w+::\w*'
 
+inoremap <expr><Enter>  pumvisible() ? "\<C-y>" : "\<Enter>"
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-inoremap <expr><Enter>  pumvisible() ? "\<C-y>" : "\<Enter>"
 
 
 
@@ -110,6 +116,17 @@ let g:NERDTreeMapActivateNode='<tab>'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+  nmap <Space>1 <Plug>AirlineSelectTab1
+  nmap <Space>2 <Plug>AirlineSelectTab2
+  nmap <Space>3 <Plug>AirlineSelectTab3
+  nmap <Space>4 <Plug>AirlineSelectTab4
+  nmap <Space>5 <Plug>AirlineSelectTab5
+  nmap <Space>6 <Plug>AirlineSelectTab6
+  nmap <Space>7 <Plug>AirlineSelectTab7
+  nmap <Space>8 <Plug>AirlineSelectTab8
+  nmap <Space>9 <Plug>AirlineSelectTab9
+
 
 
 " emmet
@@ -164,9 +181,19 @@ let g:ctrlp_working_path_mode = 'ra'
 " Open new file in current window
 let g:ctrlp_open_new_file = 'r'
 let g:ctrlp_extensions = ['tag', 'quickfix', 'dir', 'line', 'mixed']
-let g:ctrlp_match_window = 'top,order:btt,min:1,max:20'
-
+let g:ctrlp_match_window = 'top,order:ttb,min:1,max:20'
 let g:ctrlp_user_command = 'ag %s -l --nocolor --ignore --hidden -g ""'
+
+"multiple-cursors
+
+let g:multi_cursor_use_default_mapping=0
+
+let g:multi_cursor_next_key='<M-n>'
+let g:multi_cursor_prev_key='<M-p>'
+let g:multi_cursor_skip_key='<M-x>'
+let g:multi_cursor_quit_key='<Esc>'
+
+
 
 
 "CtrlSF 插件配置
@@ -197,13 +224,26 @@ let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#snippets_directory='~/.config/plugged/vim-snippets/snippets'
 
 
-
+"devicons
 let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
 
+if exists('g:loaded_webdevicons')
+    call webdevicons#refresh()
+endif
 
 "Startify
 let g:startify_change_to_dir = 0
 let g:startify_change_to_vcs_root = 1
+
+
+"fuzzy search
+noremap <silent><expr> z/ incsearch#go(<SID>config_fuzzyall())
+noremap <silent><expr> z? incsearch#go(<SID>config_fuzzyall({'command': '?'}))
+noremap <silent><expr> zg? incsearch#go(<SID>config_fuzzyall({'is_stay': 1}))
+
+
+"YRShow
+nnoremap <silent> <F9> :YRShow<CR>
 
 " http://stackoverflow.com/questions/13194428/is-better-way-to-zoom-windows-in-vim-than-zoomwin
 " Zoom / Restore window.

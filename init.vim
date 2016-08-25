@@ -1,5 +1,6 @@
 set shell=/bin/zsh
 
+
 let mapleader = ','
 let g:mapleader = ','
 cd ~/vagrant/
@@ -27,6 +28,7 @@ set visualbell " Turn off audible bell
 
 
 
+set modifiable
 set wildmenu
 set wildmode=longest,list:longest
 set wildignore+=.hg,.git,.svn                    " Version control
@@ -86,6 +88,9 @@ au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|
 vnoremap < <gv
 vnoremap > >gv
 
+" Resize splits when the window is resized {{{
+autocmd VimResized * :wincmd =
+"}}}
 
 "setl bufhidden=delete | bnext
 
@@ -97,7 +102,7 @@ inoremap jj <ESC>
 inoremap \\ <ESC>
 
 
-nnoremap  c :bp\|bd #<CR>
+nnoremap  cc :bp\|bd #<CR><ESC>
 
 let g:php_manual_online_search_shortcut = '<F3>'
 :map <F1> K
@@ -120,16 +125,7 @@ function! s:config_fuzzyall(...) abort
   \ }), get(a:, 1, {}))
 endfunction
 
-
-noremap <silent><expr> z/ incsearch#go(<SID>config_fuzzyall())
-noremap <silent><expr> z? incsearch#go(<SID>config_fuzzyall({'command': '?'}))
-noremap <silent><expr> zg? incsearch#go(<SID>config_fuzzyall({'is_stay': 1}))
-
-nnoremap <silent> <F9> :YRShow<CR>
-
-
-
-" map <leader>, and <leader>. to buffer prev/next buffer
+" map <leader>h and <leader>l to buffer prev/next buffer
 noremap <Space>h :bp<CR>
 noremap <Space>l :bn<CR>
 
@@ -139,3 +135,8 @@ nnoremap <silent> N Nzz
 nnoremap <silent> * *zz
 nnoremap <silent> # #zz
 nnoremap <silent> g* g*zz
+
+
+
+"Automatically source the init.vim file on save.
+"autocmd BufWritePost init.vim source %

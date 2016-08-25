@@ -14,7 +14,16 @@ else
   let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
 endif
 
-"set guitablabel=%t
+" ---------------------------------------------------------------------------------------------------------------------
+" 2.1 Split settings (more natural) {{{
+" ---------------------------------------------------------------------------------------------------------------------
+
+set splitbelow                              " Splitting a window will put the new window below the current
+set splitright                              " Splitting a window will put the new window right of the current
+
+"}}}
+
+
 set autoindent " autoindent based on line above, works most of the time
 set background=dark
 set breakindent
@@ -60,5 +69,8 @@ set splitright
 set textwidth=0 " turn off hard word wrapping
 set wrap
 set wrapmargin=0
+
+" don't hide quotes in json files
+let g:vim_json_syntax_conceal = 0
 
 syntax enable " enable syntax processing
