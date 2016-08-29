@@ -1,5 +1,5 @@
 set shell=/bin/zsh
-
+"let g:python_host_prog='/usr/local/bin/python3'
 
 let mapleader = ','
 let g:mapleader = ','

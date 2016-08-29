@@ -23,7 +23,7 @@ set splitright                              " Splitting a window will put the ne
 
 "}}}
 
-
+set nolazyredraw
 set autoindent " autoindent based on line above, works most of the time
 set background=dark
 set breakindent
@@ -45,12 +45,12 @@ set linebreak
 " set linespace=2 " Set line spacing
 " set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 
+set nolist
 set listchars=tab:→\ ,eol:↵,trail:·,extends:↷,precedes:↶
 set modelines=1
 set mouse=a " Enable mouse use in all modes
 set nocursorcolumn " Do not highlight column
 set noequalalways
-set nolist
 set number
 set showcmd
 set numberwidth=4

@@ -14,6 +14,7 @@ Plug 'honza/vim-snippets'
 Plug 'Shougo/vimshell.vim'
 
 Plug 'tpope/vim-sleuth'
+Plug 'godlygeek/tabular'
 
 Plug 'carlitux/deoplete-ternjs'
 Plug 'majutsushi/tagbar'
@@ -40,7 +41,6 @@ Plug 'Raimondi/delimitMate'
 Plug 'ap/vim-css-color'
 Plug 'gregsexton/MatchTag'
 Plug 'airblade/vim-rooter'
-Plug 'godlygeek/tabular'
 "Plug 'm2mdas/phpcomplete-extended'
 " Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
 
@@ -56,7 +56,6 @@ Plug 'StanAngeloff/php.vim', { 'for': 'php' }
 Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' }
 Plug 'modess/vim-phpcolors'
 "Plug 'rafaelndev/deoplete-laravel-plugin', {'for': ['php'], 'do': 'composer install'}
-
 Plug 'YankRing.vim'
 Plug 'rking/ag.vim'
 Plug 'dyng/ctrlsf.vim'
@@ -103,6 +102,19 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 autocmd vimenter * NERDTree
 autocmd VimEnter * wincmd p
 nnoremap <leader>f :NERDTreeFind<CR>
+" 显示隐藏文件
+let NERDTreeShowHidden=1
+
+
+" 忽略文件
+let NERDTreeIgnore=[
+    \ '.git$[[dir]]',
+    \ '.vscode$[[dir]]',
+    \ '.idea$[[dir]]',
+    \ '.DS_Store$[[file]]',
+    \ '.swp$[[file]]'
+\ ]
+
 nmap <F6> :NERDTreeToggle<CR>
 
 "autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -113,10 +125,14 @@ let g:tagbar_autofocus = 1
 let g:NERDTreeMapActivateNode='<tab>'
 
 "airline
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#buffer_nr_format = '%s:'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline#extensions#tabline#show_tabs=0
+
   nmap <Space>1 <Plug>AirlineSelectTab1
   nmap <Space>2 <Plug>AirlineSelectTab2
   nmap <Space>3 <Plug>AirlineSelectTab3
@@ -225,7 +241,9 @@ let g:neosnippet#snippets_directory='~/.config/plugged/vim-snippets/snippets'
 
 
 "devicons
-let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
+let g:WebDevIconsUnicodeDecorateFolderNodes=1
+let g:WebDevIconsNerdTreeAfterGlyphPadding=''
+let g:WebDevIconsNerdTreeGitPluginForceVAlign=0
 
 if exists('g:loaded_webdevicons')
     call webdevicons#refresh()
@@ -260,3 +278,35 @@ function! s:ZoomToggle() abort
 endfunction
 command! ZoomToggle call s:ZoomToggle()
 nnoremap <silent> <Leader>z :ZoomToggle<CR>
+
+
+"PHP namespace
+function! IPhpInsertUse()
+    call PhpInsertUse()
+    call feedkeys('a',  'n')
+endfunction
+autocmd FileType php inoremap <Leader>n <Esc>:call IPhpInsertUse()<CR>
+autocmd FileType php noremap <Leader>n :call PhpInsertUse()<CR>
+
+
+function! MarkWindowSwap()
+    let g:markedWinNum = winnr()
+endfunction
+
+function! DoWindowSwap()
+    "Mark destination
+    let curNum = winnr()
+    let curBuf = bufnr( "%" )
+    exe g:markedWinNum . "wincmd w"
+    "Switch to source and shuffle dest->source
+    let markedBuf = bufnr( "%" )
+    "Hide and open so that we aren't prompted and keep history
+    exe 'hide buf' curBuf
+    "Switch to dest and shuffle source->dest
+    exe curNum . "wincmd w"
+    "Hide and open so that we aren't prompted and keep history
+    exe 'hide buf' markedBuf
+endfunction
+
+nmap <silent> <leader>mw :call MarkWindowSwap()<CR>
+nmap <silent> <leader>pw :call DoWindowSwap()<CR>
