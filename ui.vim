@@ -23,7 +23,7 @@ set splitright                              " Splitting a window will put the ne
 
 "}}}
 
-set nolazyredraw
+"set nolazyredraw
 set autoindent " autoindent based on line above, works most of the time
 set background=dark
 set breakindent

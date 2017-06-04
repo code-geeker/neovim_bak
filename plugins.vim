@@ -36,7 +36,7 @@ Plug 'mattn/emmet-vim'
 Plug 'mhinz/vim-startify'
 
 
-Plug 'Raimondi/delimitMate'
+"Plug 'Raimondi/delimitMate'
 
 Plug 'ap/vim-css-color'
 Plug 'gregsexton/MatchTag'
