@@ -105,8 +105,6 @@ inoremap \\ <ESC>
 nnoremap  cc :bp\|bd #<CR><ESC>
 
 let g:php_manual_online_search_shortcut = '<F3>'
-:map <F1> K
-:imap <F1> <Esc>K
 " Fast saving
 nmap <leader>w :w!<cr>
 
@@ -116,14 +114,6 @@ cmap w!! w !sudo tee % >/dev/null
 map <silent> <leader>v :e ~/.config/nvim/init.vim<cr>
 noremap <silent> <leader><leader>v :source ~/.config/nvim/init.vim<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
-function! s:config_fuzzyall(...) abort
-  return extend(copy({
-  \   'converters': [
-  \     incsearch#config#fuzzy#converter(),
-  \     incsearch#config#fuzzyspell#converter()
-  \   ],
-  \ }), get(a:, 1, {}))
-endfunction
 
 " map <leader>h and <leader>l to buffer prev/next buffer
 noremap <Space>h :bp<CR>

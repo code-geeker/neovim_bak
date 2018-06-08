@@ -4,7 +4,7 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'dracula/vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'benekastah/neomake', { 'on': ['Neomake'] }
+"Plug 'benekastah/neomake', { 'on': ['Neomake'] }
 Plug 'Shougo/context_filetype.vim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -15,6 +15,9 @@ Plug 'Shougo/vimshell.vim'
 
 Plug 'tpope/vim-sleuth'
 Plug 'godlygeek/tabular'
+"Plug 'stephpy/vim-php-cs-fixer'
+
+"Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install' }
 
 Plug 'carlitux/deoplete-ternjs'
 Plug 'majutsushi/tagbar'
@@ -24,25 +27,29 @@ Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/syntastic'
 Plug 'scrooloose/nerdcommenter'
 
+Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-surround'
+
+Plug 'unblevable/quick-scope'
 Plug 'vim-scripts/matchit.zip'
 Plug 'itchyny/vim-cursorword'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/incsearch-fuzzy.vim'
 Plug 'mattn/emmet-vim'
 
-Plug 'mhinz/vim-startify'
+"Plug 'mhinz/vim-startify'
 
 
-"Plug 'Raimondi/delimitMate'
+Plug 'Raimondi/delimitMate'
 
 Plug 'ap/vim-css-color'
 Plug 'gregsexton/MatchTag'
 Plug 'airblade/vim-rooter'
 "Plug 'm2mdas/phpcomplete-extended'
 " Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
+
 
 
 Plug 'othree/html5.vim', { 'for': 'html' }
@@ -56,14 +63,19 @@ Plug 'StanAngeloff/php.vim', { 'for': 'php' }
 Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' }
 Plug 'modess/vim-phpcolors'
 "Plug 'rafaelndev/deoplete-laravel-plugin', {'for': ['php'], 'do': 'composer install'}
-Plug 'YankRing.vim'
+"Plug 'YankRing.vim'
 Plug 'rking/ag.vim'
 Plug 'dyng/ctrlsf.vim'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+"Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 Plug 'jwalton512/vim-blade'
 Plug 'ctrlpvim/ctrlp.vim'
+
+Plug 'vim-php/tagbar-phpctags.vim'
+Plug 'ludovicchabant/vim-gutentags'
+
+Plug '/usr/local/opt/fzf'
 
 "Plug 'phpvim/phpcd.vim', { 'for': 'php' , 'do': 'composer update' }
 
@@ -85,8 +97,8 @@ let g:deoplete#enable_smart_case = 1
 let g:deoplete#keyword_patterns = {}
 let g:deoplete#keyword_patterns.default = '[a-zA-Z_]\w{2,}?'
 
-"let g:deoplete#omni_patterns = {}
-"let g:deoplete#omni_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+let g:deoplete#omni_patterns = {}
+let g:deoplete#omni_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
 
 let g:deoplete#omni#input_patterns = {}
 let g:deoplete#omni#input_patterns.php =
@@ -99,11 +111,11 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 
 "NERDTree
-autocmd vimenter * NERDTree
-autocmd VimEnter * wincmd p
+"autocmd vimenter * NERDTree
+"autocmd VimEnter * wincmd p
 nnoremap <leader>f :NERDTreeFind<CR>
 " 显示隐藏文件
-let NERDTreeShowHidden=1
+"let NERDTreeShowHidden=1
 
 
 " 忽略文件
@@ -120,8 +132,10 @@ nmap <F6> :NERDTreeToggle<CR>
 "autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 
-nmap <F7> :TagbarToggle<CR>
-let g:tagbar_autofocus = 1
+"nmap <F7> :TagbarToggle<CR>
+"let g:tagbar_autofocus = 1
+
+
 let g:NERDTreeMapActivateNode='<tab>'
 
 "airline
@@ -241,27 +255,36 @@ let g:neosnippet#snippets_directory='~/.config/plugged/vim-snippets/snippets'
 
 
 "devicons
-let g:WebDevIconsUnicodeDecorateFolderNodes=1
-let g:WebDevIconsNerdTreeAfterGlyphPadding=''
-let g:WebDevIconsNerdTreeGitPluginForceVAlign=0
+"let g:WebDevIconsUnicodeDecorateFolderNodes=1
+"let g:WebDevIconsNerdTreeAfterGlyphPadding=''
+"let g:WebDevIconsNerdTreeGitPluginForceVAlign=0
 
-if exists('g:loaded_webdevicons')
-    call webdevicons#refresh()
-endif
+"if exists('g:loaded_webdevicons')
+    "call webdevicons#refresh()
+"endif
 
 "Startify
-let g:startify_change_to_dir = 0
-let g:startify_change_to_vcs_root = 1
+"let g:startify_change_to_dir = 0
+"let g:startify_change_to_vcs_root = 1
 
 
 "fuzzy search
+function! s:config_fuzzyall(...) abort
+  return extend(copy({
+  \   'converters': [
+  \     incsearch#config#fuzzy#converter(),
+  \     incsearch#config#fuzzyspell#converter()
+  \   ],
+  \ }), get(a:, 1, {}))
+endfunction
+
 noremap <silent><expr> z/ incsearch#go(<SID>config_fuzzyall())
 noremap <silent><expr> z? incsearch#go(<SID>config_fuzzyall({'command': '?'}))
 noremap <silent><expr> zg? incsearch#go(<SID>config_fuzzyall({'is_stay': 1}))
 
 
 "YRShow
-nnoremap <silent> <F9> :YRShow<CR>
+"nnoremap <silent> <F9> :YRShow<CR>
 
 " http://stackoverflow.com/questions/13194428/is-better-way-to-zoom-windows-in-vim-than-zoomwin
 " Zoom / Restore window.
@@ -310,3 +333,53 @@ endfunction
 
 nmap <silent> <leader>mw :call MarkWindowSwap()<CR>
 nmap <silent> <leader>pw :call DoWindowSwap()<CR>
+
+
+" ==== gutentags settings ====
+" Exclude css, html, js files from generating tag files
+let g:gutentags_ctags_exclude = ['*.css', '*.html', '*.js',"build", "vendor", ".git", "node_modules", "*.config/nvim/plugged/*"]
+" Where to store tag files
+let g:gutentags_cache_dir = '~/.config/nvim/gutentags'
+" ==== End gutentags settings ====
+
+
+
+"vim-devicons
+" NERDTress File highlighting
+let g:webdevicons_enable = 1
+
+
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
+
+let g:WebDevIconsNerdTreeAfterGlyphPadding = ''
+let g:webdevicons_conceal_nerdtree_brackets = 1
+let g:webdeviconsunicodeglyphdoublewidth = 2
+
+let g:webdevicons_enable_airline_tabline = 1
+let g:webdevicons_enable_airline_statusline = 1
+
+autocmd VimEnter * call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#282A36')
+autocmd VimEnter * call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#282A36')
+autocmd VimEnter * call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#282A36')
+autocmd VimEnter * call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#282A36')
+autocmd VimEnter * call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#282A36')
+autocmd VimEnter * call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#282A36')
+autocmd VimEnter * call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#282A36')
+autocmd VimEnter * call NERDTreeHighlightFile('html', 'yellow', 'none', '#DC361D', '#282A36')
+autocmd VimEnter * call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#282A36')
+autocmd VimEnter * call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#282A36')
+autocmd VimEnter * call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#282A36')
+autocmd VimEnter * call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#282A36')
+autocmd VimEnter * call NERDTreeHighlightFile('php', 'Magenta', 'none', '#6364A7', '#282A36')
+autocmd VimEnter * call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#282A36')
+autocmd VimEnter * call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#282A36')
+autocmd VimEnter * call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#282A36')
+autocmd VimEnter * call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#282A36')
+autocmd VimEnter * call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#282A36')
+
+if exists("g:loaded_webdevicons")
+    call webdevicons#refresh()
+endif
