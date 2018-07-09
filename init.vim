@@ -1,22 +1,27 @@
-set shell=/bin/zsh
-"let g:python_host_prog='/usr/local/bin/python3'
-
 let mapleader = ','
 let g:mapleader = ','
 cd ~/vagrant/
 source $HOME/.config/nvim/ui.vim
 source $HOME/.config/nvim/plugins.vim
 filetype plugin indent on
+syntax on
 
 set autowrite
 set iskeyword+=_,$,@,%,#
 set whichwrap+=<,>,h,l,[,] " Wrap arrow keys between lines
 
+"" Encoding
+set encoding=utf-8
+"set fileencoding=utf-8
+set fileencodings=utf-8
+set bomb
+set binary
+
+
 set autoread " Reload files changed outside vim
 set backspace=indent,eol,start " Enable delete over line breaks and automatically-inserted indentation
 set clipboard=unnamed
-set fileencoding=utf-8
-set fileformat=unix " Set unix line endings
+"set fileformat=unix " Set unix line endings
 set fileformats=unix,mac,dos
 set hidden " Don't unload buffers when they are abandoned, instead stay in the background
 set lazyredraw " Screen will not be redrawn while running macros, registers or other non-typed comments
@@ -105,13 +110,10 @@ inoremap \\ <ESC>
 nnoremap  cc :bp\|bd #<CR><ESC>
 
 let g:php_manual_online_search_shortcut = '<F3>'
-" Fast saving
-nmap <leader>w :w!<cr>
 
-" Enable w!! for saving file with root privileges
-cmap w!! w !sudo tee % >/dev/null
+map <D-s> :update<CR>
 
-map <silent> <leader>v :e ~/.config/nvim/init.vim<cr>
+map <silent> <leader>v :e ~/.config/nvim/init.vim<CR><CR>
 noremap <silent> <leader><leader>v :source ~/.config/nvim/init.vim<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 
@@ -125,6 +127,11 @@ nnoremap <silent> N Nzz
 nnoremap <silent> * *zz
 nnoremap <silent> # #zz
 nnoremap <silent> g* g*zz
+
+nnoremap <Up> :echomsg "use k"<cr>
+nnoremap <Down> :echomsg "use j"<cr>
+nnoremap <Left> :echomsg "use h"<cr>
+nnoremap <Right> :echomsg "use l"<cr>
 
 
 

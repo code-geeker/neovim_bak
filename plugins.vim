@@ -5,7 +5,6 @@ Plug 'dracula/vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 "Plug 'benekastah/neomake', { 'on': ['Neomake'] }
-Plug 'Shougo/context_filetype.vim'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/neosnippet'
@@ -19,15 +18,13 @@ Plug 'godlygeek/tabular'
 
 "Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install' }
 
-Plug 'carlitux/deoplete-ternjs'
 Plug 'majutsushi/tagbar'
 Plug 'pangloss/vim-javascript'
-Plug 'wookiehangover/jshint.vim'
+"Plug 'wookiehangover/jshint.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/syntastic'
 Plug 'scrooloose/nerdcommenter'
 
-Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-surround'
@@ -55,23 +52,28 @@ Plug 'airblade/vim-rooter'
 Plug 'othree/html5.vim', { 'for': 'html' }
 Plug 'Lokaltog/vim-easymotion'
 
-Plug 'sjl/gundo.vim'
+"Plug 'sjl/gundo.vim'
 "Plug 'simnalamburt/vim-mundo'
 
-Plug 'alvan/vim-php-manual'
+Plug 'alvan/vim-php-manual', {'for': 'php' }
 Plug 'StanAngeloff/php.vim', { 'for': 'php' }
 Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' }
-Plug 'modess/vim-phpcolors'
+
+Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+
+"Plug 'modess/vim-phpcolors'
 "Plug 'rafaelndev/deoplete-laravel-plugin', {'for': ['php'], 'do': 'composer install'}
 "Plug 'YankRing.vim'
 Plug 'rking/ag.vim'
 Plug 'dyng/ctrlsf.vim'
 Plug 'terryma/vim-multiple-cursors'
-"Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 Plug 'jwalton512/vim-blade'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'kshenoy/vim-signature'
 
+Plug 'terryma/vim-expand-region'
 Plug 'vim-php/tagbar-phpctags.vim'
 Plug 'ludovicchabant/vim-gutentags'
 
@@ -113,10 +115,16 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 "NERDTree
 "autocmd vimenter * NERDTree
 "autocmd VimEnter * wincmd p
-nnoremap <leader>f :NERDTreeFind<CR>
-" 显示隐藏文件
-"let NERDTreeShowHidden=1
+nnoremap <leader>l :NERDTreeFind<CR>
 
+let g:NERDTreeMapActivateNode='<tab>'
+" 显示隐藏文件
+let NERDTreeShowHidden=1
+
+
+nmap <F7> :TagbarToggle<CR>
+let g:tagbar_autofocus = 1
+let g:tagbar_phpctags_bin='~/.config/nvim/phpctags'
 
 " 忽略文件
 let NERDTreeIgnore=[
@@ -136,7 +144,6 @@ nmap <F6> :NERDTreeToggle<CR>
 "let g:tagbar_autofocus = 1
 
 
-let g:NERDTreeMapActivateNode='<tab>'
 
 "airline
 let g:airline#extensions#tabline#buffer_nr_show = 1
@@ -147,15 +154,15 @@ let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#show_tabs=0
 
-  nmap <Space>1 <Plug>AirlineSelectTab1
-  nmap <Space>2 <Plug>AirlineSelectTab2
-  nmap <Space>3 <Plug>AirlineSelectTab3
-  nmap <Space>4 <Plug>AirlineSelectTab4
-  nmap <Space>5 <Plug>AirlineSelectTab5
-  nmap <Space>6 <Plug>AirlineSelectTab6
-  nmap <Space>7 <Plug>AirlineSelectTab7
-  nmap <Space>8 <Plug>AirlineSelectTab8
-  nmap <Space>9 <Plug>AirlineSelectTab9
+nmap <Space>1 <Plug>AirlineSelectTab1
+nmap <Space>2 <Plug>AirlineSelectTab2
+nmap <Space>3 <Plug>AirlineSelectTab3
+nmap <Space>4 <Plug>AirlineSelectTab4
+nmap <Space>5 <Plug>AirlineSelectTab5
+nmap <Space>6 <Plug>AirlineSelectTab6
+nmap <Space>7 <Plug>AirlineSelectTab7
+nmap <Space>8 <Plug>AirlineSelectTab8
+nmap <Space>9 <Plug>AirlineSelectTab9
 
 
 
@@ -177,7 +184,7 @@ let g:delimitMate_jump_expansion = 1
 " let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-let g:syntastic_javascript_checkers=['jshint']
+"let g:syntastic_javascript_checkers=['jshint']
 
 "let g:syntastic_php_checkers = ['php','phpcs','phpmd']
 let g:syntastic_php_checkers = ['php']
@@ -211,18 +218,18 @@ let g:ctrlp_working_path_mode = 'ra'
 " Open new file in current window
 let g:ctrlp_open_new_file = 'r'
 let g:ctrlp_extensions = ['tag', 'quickfix', 'dir', 'line', 'mixed']
-let g:ctrlp_match_window = 'top,order:ttb,min:1,max:20'
+"let g:ctrlp_match_window = 'top,order:ttb,min:1,max:20'
+let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20'
 let g:ctrlp_user_command = 'ag %s -l --nocolor --ignore --hidden -g ""'
 
 "multiple-cursors
 
 let g:multi_cursor_use_default_mapping=0
 
-let g:multi_cursor_next_key='<M-n>'
-let g:multi_cursor_prev_key='<M-p>'
-let g:multi_cursor_skip_key='<M-x>'
+let g:multi_cursor_next_key='<C-j>'
+let g:multi_cursor_prev_key='<C-k>'
+let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<Esc>'
-
 
 
 
@@ -235,7 +242,7 @@ let g:ctrlsf_winsize = '50%'
 nmap     <Leader>s <Plug>CtrlSFPrompt
 vmap     <Leader>s <Plug>CtrlSFVwordPath
 vmap     <Leader>S <Plug>CtrlSFVwordExec
-nmap     <Leader>W <Plug>CtrlSFCwordPath
+nmap     <Leader>w <Plug>CtrlSFCwordPath
 nnoremap <Leader>o :CtrlSFToggle<CR>
 let g:ctrlsf_mapping = {
     \ "next": "n",
@@ -286,21 +293,6 @@ noremap <silent><expr> zg? incsearch#go(<SID>config_fuzzyall({'is_stay': 1}))
 "YRShow
 "nnoremap <silent> <F9> :YRShow<CR>
 
-" http://stackoverflow.com/questions/13194428/is-better-way-to-zoom-windows-in-vim-than-zoomwin
-" Zoom / Restore window.
-function! s:ZoomToggle() abort
-    if exists('t:zoomed') && t:zoomed
-        execute t:zoom_winrestcmd
-        let t:zoomed = 0
-    else
-        let t:zoom_winrestcmd = winrestcmd()
-        resize
-        vertical resize
-        let t:zoomed = 1
-    endif
-endfunction
-command! ZoomToggle call s:ZoomToggle()
-nnoremap <silent> <Leader>z :ZoomToggle<CR>
 
 
 "PHP namespace
@@ -343,43 +335,112 @@ let g:gutentags_cache_dir = '~/.config/nvim/gutentags'
 " ==== End gutentags settings ====
 
 
+"vim-expand-region
+
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
+
+
+
+
+
+function! s:config_fuzzyall(...) abort
+  return extend(copy({
+  \   'converters': [
+  \     incsearch#config#fuzzy#converter(),
+  \     incsearch#config#fuzzyspell#converter()
+  \   ],
+  \ }), get(a:, 1, {}))
+endfunction
+
+noremap <silent><expr> z/ incsearch#go(<SID>config_fuzzyall())
+noremap <silent><expr> z? incsearch#go(<SID>config_fuzzyall({'command': '?'}))
+noremap <silent><expr> zg? incsearch#go(<SID>config_fuzzyall({'is_stay': 1}))
+
+
+"去除空白符
+function! RemoveTrailingWhitespace()
+  if &ft != "diff"
+    let b:curcol = col(".")
+    let b:curline = line(".")
+    silent! %s/\s\+$//
+    silent! %s/\(\s*\n\)\+\%$//
+    call cursor(b:curline, b:curcol)
+  endif
+endfunction
+autocmd BufWritePre * call RemoveTrailingWhitespace()
+
+
+"相对行号
+nnoremap <leader>r :call  Relativenum()<cr>
+function! Relativenum()
+    if &rnu == 1
+        set nornu
+    else
+        set rnu
+    endif
+endfunction
+
+
+map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+
+
+"ctags
+nnoremap <c-]> g<c-]>
+vnoremap <c-]> g<c-]>
+
+if !exists("g:potion_command")
+    let g:potion_command = "/Applications/PhpStorm.app/Contents/bin/format.sh -s ~/.vim/zgia.xml"
+endif
+
+function! PotionCompileAndRunFile()
+    silent !clear
+    execute "!" . g:potion_command . " %:p"
+endfunction
+
+nnoremap <silent> <leader>f :call PotionCompileAndRunFile()<cr>
+
+
+"PHPCD
+let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
+let g:deoplete#ignore_sources.php = ['omni']
+
 
 "vim-devicons
 " NERDTress File highlighting
 let g:webdevicons_enable = 1
 
+"let g:NERDTreeFileExtensionHighlightFullName = 1
+"let g:NERDTreeExactMatchHighlightFullName = 1
+"let g:NERDTreePatternMatchHighlightFullName = 1
 
-function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
-exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
-exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-endfunction
-
-let g:WebDevIconsNerdTreeAfterGlyphPadding = ''
-let g:webdevicons_conceal_nerdtree_brackets = 1
-let g:webdeviconsunicodeglyphdoublewidth = 2
-
-let g:webdevicons_enable_airline_tabline = 1
-let g:webdevicons_enable_airline_statusline = 1
-
-autocmd VimEnter * call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#282A36')
-autocmd VimEnter * call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#282A36')
-autocmd VimEnter * call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#282A36')
-autocmd VimEnter * call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#282A36')
-autocmd VimEnter * call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#282A36')
-autocmd VimEnter * call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#282A36')
-autocmd VimEnter * call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#282A36')
-autocmd VimEnter * call NERDTreeHighlightFile('html', 'yellow', 'none', '#DC361D', '#282A36')
-autocmd VimEnter * call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#282A36')
-autocmd VimEnter * call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#282A36')
-autocmd VimEnter * call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#282A36')
-autocmd VimEnter * call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#282A36')
-autocmd VimEnter * call NERDTreeHighlightFile('php', 'Magenta', 'none', '#6364A7', '#282A36')
-autocmd VimEnter * call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#282A36')
-autocmd VimEnter * call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#282A36')
-autocmd VimEnter * call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#282A36')
-autocmd VimEnter * call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#282A36')
-autocmd VimEnter * call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#282A36')
 
 if exists("g:loaded_webdevicons")
     call webdevicons#refresh()
 endif
+
+"nerdcommenter plugin
+let g:ft = ''
+fu! NERDCommenter_before()
+    if &ft == 'php'
+        let g:ft = 'php'
+        let stack = synstack(line('.'), col('.'))
+        if len(stack) > 0
+            "most nested item in the stack
+            let syn = synIDattr((stack)[-1], 'name')
+            if len(syn) > 0
+                let syn = substitute(syn, '[A-Z].*', '', '')
+                if len(syn) > 0
+                    exe 'setf '.syn
+                endif
+            endif
+        endif
+    endif
+endfu
+fu! NERDCommenter_after()
+    if g:ft == 'php'
+        setf php
+        let g:ft = ''
+    endif
+  endfu
