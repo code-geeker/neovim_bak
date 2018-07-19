@@ -11,10 +11,10 @@ Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'honza/vim-snippets'
 Plug 'Shougo/vimshell.vim'
-
+Plug 'mbbill/undotree'
 Plug 'tpope/vim-sleuth'
 Plug 'godlygeek/tabular'
-"Plug 'stephpy/vim-php-cs-fixer'
+Plug 'stephpy/vim-php-cs-fixer'
 
 "Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install' }
 
@@ -76,6 +76,7 @@ Plug 'kshenoy/vim-signature'
 Plug 'terryma/vim-expand-region'
 Plug 'vim-php/tagbar-phpctags.vim'
 Plug 'ludovicchabant/vim-gutentags'
+"Plug 'jsfaint/gen_tags.vim'
 
 Plug '/usr/local/opt/fzf'
 
@@ -153,6 +154,9 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#show_tabs=0
+
+let g:airline#extensions#whitespace#enabled = 0
+
 
 nmap <Space>1 <Plug>AirlineSelectTab1
 nmap <Space>2 <Plug>AirlineSelectTab2
@@ -328,19 +332,45 @@ nmap <silent> <leader>pw :call DoWindowSwap()<CR>
 
 
 " ==== gutentags settings ====
+
+let g:gutentags_project_root = [ 'composer.json', '.git', '.env' ]
+
+let g:gutentags_ctags_tagfile = 'tags'
 " Exclude css, html, js files from generating tag files
-let g:gutentags_ctags_exclude = ['*.css', '*.html', '*.js',"build", "vendor", ".git", "node_modules", "*.config/nvim/plugged/*"]
+let g:gutentags_ctags_exclude = ['*.css', '*.html', '*.js',"build", ".git", "node_modules", "*.config/nvim/plugged/*"]
+
+" 配置 ctags 的参数
+let g:gutentags_ctags_extra_args = ['--languages=php','--php-kinds=ctifnv','--fields=+aimS']
+
 " Where to store tag files
-let g:gutentags_cache_dir = '~/.config/nvim/gutentags'
+let s:vim_tags = expand('~/.cache/tags')
+if !isdirectory(s:vim_tags)
+   silent! call mkdir(s:vim_tags, 'p')
+endif
+
+let g:gutentags_cache_dir = s:vim_tags
+
 " ==== End gutentags settings ====
+
+
+
+" ==== gentags settings ====
+"let g:loaded_gentags#gtags = 1
+"let g:gen_tags#ctags_auto_gen = 1
+"let g:gen_tags#blacklist = ['$HOME']
+
+"let g:gen_tags#blacklist += split(glob('~/.vim/*'))
+"let g:gen_tags#blacklist += split(glob('~/.config/*'))
+"let g:gen_tags#blacklist += split(glob('vendor'))
+
+"let g:gen_tags#statusline = 1
+" ==== End gentags settings ====
 
 
 "vim-expand-region
 
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
-
-
 
 
 
@@ -399,7 +429,7 @@ function! PotionCompileAndRunFile()
     execute "!" . g:potion_command . " %:p"
 endfunction
 
-nnoremap <silent> <leader>f :call PotionCompileAndRunFile()<cr>
+nnoremap <silent> <leader>f :call PotionCompileAndRunFile()<CR>
 
 
 "PHPCD
@@ -444,3 +474,27 @@ fu! NERDCommenter_after()
         let g:ft = ''
     endif
   endfu
+
+
+"undotree
+nnoremap <F5> :UndotreeToggle<cr>
+
+
+
+
+
+
+" If you use php-cs-fixer version 2.x
+let g:php_cs_fixer_rules = "@PSR2"          " options: --rules (default:@PSR2)
+"let g:php_cs_fixer_cache = ".php_cs.cache" " options: --cache-file
+"let g:php_cs_fixer_config_file = '.php_cs' " options: --config
+" End of php-cs-fixer version 2 config params
+
+let g:php_cs_fixer_php_path = "php"               " Path to PHP
+let g:php_cs_fixer_enable_default_mapping = 1     " Enable the mapping by default (<leader>pcd)
+let g:php_cs_fixer_dry_run = 0                    " Call command with dry-run option
+let g:php_cs_fixer_verbose = 0
+"autocmd BufWritePost *.php silent! call PhpCsFixerFixFile()
+
+nnoremap <silent><leader>pcd :call PhpCsFixerFixDirectory()<CR>
+nnoremap <silent><leader>pcf :w \| :call PhpCsFixerFixFile()<CR>

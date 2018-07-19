@@ -19,6 +19,7 @@ set binary
 
 
 set autoread " Reload files changed outside vim
+let autosave=30
 set backspace=indent,eol,start " Enable delete over line breaks and automatically-inserted indentation
 set clipboard=unnamed
 "set fileformat=unix " Set unix line endings
@@ -111,7 +112,6 @@ nnoremap  cc :bp\|bd #<CR><ESC>
 
 let g:php_manual_online_search_shortcut = '<F3>'
 
-map <D-s> :update<CR>
 
 map <silent> <leader>v :e ~/.config/nvim/init.vim<CR><CR>
 noremap <silent> <leader><leader>v :source ~/.config/nvim/init.vim<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
@@ -133,6 +133,20 @@ nnoremap <Down> :echomsg "use j"<cr>
 nnoremap <Left> :echomsg "use h"<cr>
 nnoremap <Right> :echomsg "use l"<cr>
 
+"nmap ,cs :let @*=expand("%")<CR>
+"nmap ,cl :let @*=expand("%:p")<CR>
+
+" relative path  (src/foo.txt)
+nnoremap <leader>cr :let @*=expand("%")<CR>
+
+" absolute path  (/something/src/foo.txt)
+nnoremap <leader>cp :let @*=expand("%:p")<CR>
+
+" filename       (foo.txt)
+nnoremap <leader>cf :let @*=expand("%:t")<CR>
+
+" directory name (/something/src)
+nnoremap <leader>cd :let @*=expand("%:h")<CR>
 
 
 "Automatically source the init.vim file on save.
