@@ -33,7 +33,6 @@ set viminfo='100,f1 " Save up to 100 marks, enable capital marks
 set visualbell " Turn off audible bell
 
 
-
 set modifiable
 set wildmenu
 set wildmode=longest,list:longest
@@ -80,6 +79,9 @@ set noswapfile
 
 set noautochdir
 
+set t_Co=256
+"let g:Powerline_symbols = 'fancy'
+
 "Automatically remove trailing spaces when saving a file.
 autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
 
@@ -116,6 +118,7 @@ let g:php_manual_online_search_shortcut = '<F3>'
 map <silent> <leader>v :e ~/.config/nvim/init.vim<CR><CR>
 noremap <silent> <leader><leader>v :source ~/.config/nvim/init.vim<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
+map <silent> <leader>g :GitGutterLineHighlightsToggle<CR>
 
 " map <leader>h and <leader>l to buffer prev/next buffer
 noremap <Space>h :bp<CR>
@@ -148,6 +151,9 @@ nnoremap <leader>cf :let @*=expand("%:t")<CR>
 " directory name (/something/src)
 nnoremap <leader>cd :let @*=expand("%:h")<CR>
 
+
+nnoremap <expr> n  'Nn'[v:searchforward]
+nnoremap <expr> N  'nN'[v:searchforward]
 
 "Automatically source the init.vim file on save.
 "autocmd BufWritePost init.vim source %

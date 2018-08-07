@@ -22,6 +22,8 @@ Plug 'majutsushi/tagbar'
 Plug 'pangloss/vim-javascript'
 "Plug 'wookiehangover/jshint.vim'
 Plug 'scrooloose/nerdtree'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
 Plug 'scrooloose/syntastic'
 Plug 'scrooloose/nerdcommenter'
 
@@ -48,7 +50,6 @@ Plug 'airblade/vim-rooter'
 " Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
 
 
-
 Plug 'othree/html5.vim', { 'for': 'html' }
 Plug 'Lokaltog/vim-easymotion'
 
@@ -67,7 +68,7 @@ Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 Plug 'rking/ag.vim'
 Plug 'dyng/ctrlsf.vim'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
 
 Plug 'jwalton512/vim-blade'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -80,14 +81,13 @@ Plug 'ludovicchabant/vim-gutentags'
 
 Plug '/usr/local/opt/fzf'
 
-"Plug 'phpvim/phpcd.vim', { 'for': 'php' , 'do': 'composer update' }
+Plug 'junegunn/fzf.vim'
 
+Plug 'vim-scripts/DoxygenToolkit.vim'
 
 Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
-
-
 
 " phpcomplete_extended
 "let g:phpcomplete_index_composer_command = '/usr/local/bin/composer'
@@ -112,16 +112,19 @@ inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
 
-
 "NERDTree
 "autocmd vimenter * NERDTree
 "autocmd VimEnter * wincmd p
 nnoremap <leader>l :NERDTreeFind<CR>
 
+
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
 let g:NERDTreeMapActivateNode='<tab>'
 " 显示隐藏文件
 let NERDTreeShowHidden=1
-
+let NERDTreeMinimalUI = 1
+let NERDTreeDirArrows = 1
 
 nmap <F7> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
@@ -138,18 +141,14 @@ let NERDTreeIgnore=[
 
 nmap <F6> :NERDTreeToggle<CR>
 
-"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-
-"nmap <F7> :TagbarToggle<CR>
-"let g:tagbar_autofocus = 1
-
+let NERDTreeAutoDeleteBuffer = 1
 
 
 "airline
+let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#tabline#buffer_nr_format = '%s:'
-let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
@@ -167,7 +166,6 @@ nmap <Space>6 <Plug>AirlineSelectTab6
 nmap <Space>7 <Plug>AirlineSelectTab7
 nmap <Space>8 <Plug>AirlineSelectTab8
 nmap <Space>9 <Plug>AirlineSelectTab9
-
 
 
 " emmet
@@ -478,10 +476,6 @@ fu! NERDCommenter_after()
 
 "undotree
 nnoremap <F5> :UndotreeToggle<cr>
-
-
-
-
 
 
 " If you use php-cs-fixer version 2.x
