@@ -13,7 +13,7 @@ Plug 'honza/vim-snippets'
 Plug 'Shougo/vimshell.vim'
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-sleuth'
-Plug 'godlygeek/tabular'
+Plug 'junegunn/vim-easy-align'
 Plug 'stephpy/vim-php-cs-fixer'
 
 "Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install' }
@@ -71,7 +71,6 @@ Plug 'terryma/vim-multiple-cursors'
 
 
 Plug 'jwalton512/vim-blade'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'kshenoy/vim-signature'
 
 Plug 'terryma/vim-expand-region'
@@ -85,6 +84,8 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'vim-scripts/DoxygenToolkit.vim'
 
+Plug 'wellle/targets.vim'
+
 Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
@@ -92,6 +93,7 @@ call plug#end()
 " phpcomplete_extended
 "let g:phpcomplete_index_composer_command = '/usr/local/bin/composer'
 
+let g:python3_host_prog = "/usr/local/bin/python3"
 
 "deoplete
 let g:deoplete#enable_at_startup = 1
@@ -203,31 +205,8 @@ nmap s <Plug>(easymotion-s2)
 nmap t <Plug>(easymotion-t2)
 
 
-nnoremap s <Nop>
-nnoremap sa :<C-u>CtrlP<Space>
-nnoremap sb :<C-u>CtrlPBuffer<CR>
-nnoremap sd :<C-u>CtrlPDir<CR>
-nnoremap sf :<C-u>CtrlP<CR>
-nnoremap sl :<C-u>CtrlPLine<CR>
-nnoremap sm :<C-u>CtrlPMRUFiles<CR>
-nnoremap sq :<C-u>CtrlPQuickfix<CR>
-nnoremap ss :<C-u>CtrlPMixed<CR>
-nnoremap st :<C-u>CtrlPTag<CR>
-
-let g:ctrlp_map = '<Nop>'
-" Guess vcs root dir
-let g:ctrlp_working_path_mode = 'ra'
-" Open new file in current window
-let g:ctrlp_open_new_file = 'r'
-let g:ctrlp_extensions = ['tag', 'quickfix', 'dir', 'line', 'mixed']
-"let g:ctrlp_match_window = 'top,order:ttb,min:1,max:20'
-let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:20'
-let g:ctrlp_user_command = 'ag %s -l --nocolor --ignore --hidden -g ""'
-
 "multiple-cursors
-
 let g:multi_cursor_use_default_mapping=0
-
 let g:multi_cursor_next_key='<C-j>'
 let g:multi_cursor_prev_key='<C-k>'
 let g:multi_cursor_skip_key='<C-x>'
@@ -272,9 +251,6 @@ let g:neosnippet#snippets_directory='~/.config/nvim/plugged/vim-snippets/snippet
     "call webdevicons#refresh()
 "endif
 
-"Startify
-"let g:startify_change_to_dir = 0
-"let g:startify_change_to_vcs_root = 1
 
 
 "fuzzy search
@@ -295,8 +271,6 @@ noremap <silent><expr> zg? incsearch#go(<SID>config_fuzzyall({'is_stay': 1}))
 "YRShow
 "nnoremap <silent> <F9> :YRShow<CR>
 
-
-
 "PHP namespace
 function! IPhpInsertUse()
     call PhpInsertUse()
@@ -305,7 +279,7 @@ endfunction
 autocmd FileType php inoremap <Leader>n <Esc>:call IPhpInsertUse()<CR>
 autocmd FileType php noremap <Leader>n :call PhpInsertUse()<CR>
 
-
+"交换窗口
 function! MarkWindowSwap()
     let g:markedWinNum = winnr()
 endfunction
@@ -349,20 +323,6 @@ endif
 let g:gutentags_cache_dir = s:vim_tags
 
 " ==== End gutentags settings ====
-
-
-
-" ==== gentags settings ====
-"let g:loaded_gentags#gtags = 1
-"let g:gen_tags#ctags_auto_gen = 1
-"let g:gen_tags#blacklist = ['$HOME']
-
-"let g:gen_tags#blacklist += split(glob('~/.vim/*'))
-"let g:gen_tags#blacklist += split(glob('~/.config/*'))
-"let g:gen_tags#blacklist += split(glob('vendor'))
-
-"let g:gen_tags#statusline = 1
-" ==== End gentags settings ====
 
 
 "vim-expand-region
@@ -439,39 +399,12 @@ let g:deoplete#ignore_sources.php = ['omni']
 " NERDTress File highlighting
 let g:webdevicons_enable = 1
 
-"let g:NERDTreeFileExtensionHighlightFullName = 1
-"let g:NERDTreeExactMatchHighlightFullName = 1
-"let g:NERDTreePatternMatchHighlightFullName = 1
 
 
 if exists("g:loaded_webdevicons")
     call webdevicons#refresh()
 endif
 
-"nerdcommenter plugin
-let g:ft = ''
-fu! NERDCommenter_before()
-    if &ft == 'php'
-        let g:ft = 'php'
-        let stack = synstack(line('.'), col('.'))
-        if len(stack) > 0
-            "most nested item in the stack
-            let syn = synIDattr((stack)[-1], 'name')
-            if len(syn) > 0
-                let syn = substitute(syn, '[A-Z].*', '', '')
-                if len(syn) > 0
-                    exe 'setf '.syn
-                endif
-            endif
-        endif
-    endif
-endfu
-fu! NERDCommenter_after()
-    if g:ft == 'php'
-        setf php
-        let g:ft = ''
-    endif
-  endfu
 
 
 "undotree
@@ -492,3 +425,70 @@ let g:php_cs_fixer_verbose = 0
 
 nnoremap <silent><leader>pcd :call PhpCsFixerFixDirectory()<CR>
 nnoremap <silent><leader>pcf :w \| :call PhpCsFixerFixFile()<CR>
+
+
+" fzf settings -------------------------------------------------------
+
+" Customize fzf colors to match your color scheme
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+let g:fzf_layout = { 'down': '~60%' }
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+
+nmap <silent> <Space>m :<C-u>FZFMru<CR>
+nmap <silent> <Space>f :<C-u>FZF ~/Vagrant<CR>
+nmap <silent> <Space>c :<C-u>FZF<CR>
+nmap <silent> <Space>b :<C-u>FZFNeigh<CR>
+
+command! FZFMru call fzf#run({
+\ 'source':  reverse(s:all_files()),
+\ 'sink':    'edit',
+\ 'options': '-m -x +s',
+\ 'down':    '60%' })
+
+function! s:all_files()
+  return extend(
+  \ filter(copy(v:oldfiles),
+  \        "v:val !~ 'fugitive:\\|NERD_tree\\|__CtrlSF__\\|^/tmp/\\|.git/'"),
+  \ map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), 'bufname(v:val)'))
+endfunction
+
+" The Silver Searcher
+if executable('ag')
+  let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+  set grepprg=ag\ --nogroup\ --nocolor
+endif
+
+function! s:fzf_neighbouring_files()
+  let current_file =expand("%")
+  let cwd = fnamemodify(current_file, ':p:h')
+  let command = 'ag -g "" -f ' . cwd . ' --depth 0'
+
+  call fzf#run({
+        \ 'source': command,
+        \ 'sink':   'e',
+        \ 'options': '-m -x +s',
+        \ 'window':  'enew' })
+endfunction
+
+command! FZFNeigh call s:fzf_neighbouring_files()
+
+
+
+nmap ea <Plug>(EasyAlign)
+xmap ea <Plug>(EasyAlign)

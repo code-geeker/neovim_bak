@@ -45,9 +45,9 @@ set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX bullshit
 set wildignore+=*.luac                           " Lua byte code
 set wildignore+=migrations                       " Django migrations
-set wildignore+=go/pkg                       " Go static files
-set wildignore+=go/bin                       " Go bin files
-set wildignore+=go/bin-vagrant               " Go bin-vagrant files
+set wildignore+=go/pkg				 " Go static files
+set wildignore+=go/bin				 " Go bin files
+set wildignore+=go/bin-vagrant			 " Go bin-vagrant files
 set wildignore+=*.pyc                            " Python byte code
 set wildignore+=*.orig                           " Merge resolution files
 
@@ -78,6 +78,13 @@ set nowritebackup
 set noswapfile
 
 set noautochdir
+
+" Linebreak on 500 characters
+set lbr
+set tw=500
+
+" Remove the Windows ^M - when the encodings gets messed up
+noremap <Leader>m :%s/<C-V><cr>//ge<cr>'tzt'm
 
 set t_Co=256
 "let g:Powerline_symbols = 'fancy'
