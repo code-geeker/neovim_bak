@@ -3,6 +3,8 @@ let g:mapleader = ','
 cd ~/vagrant/
 source $HOME/.config/nvim/ui.vim
 source $HOME/.config/nvim/plugins.vim
+
+
 filetype plugin indent on
 syntax on
 
@@ -164,3 +166,17 @@ nnoremap <expr> N  'nN'[v:searchforward]
 
 "Automatically source the init.vim file on save.
 "autocmd BufWritePost init.vim source %
+
+
+let php_htmlInStrings = 1
+"let php_sql_query = 1
+
+
+" Highlight text over the 80 character limit
+":au BufWinEnter *.php let w:m1=matchadd('Search', '\%<81v.\%>77v', -1)
+":au BufWinEnter *.php let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+
+
+if exists('g:loaded_webdevicons')
+    call webdevicons#refresh()
+endif

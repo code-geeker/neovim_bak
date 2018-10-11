@@ -5,18 +5,16 @@ Plug 'dracula/vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 "Plug 'benekastah/neomake', { 'on': ['Neomake'] }
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+"Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'honza/vim-snippets'
-Plug 'Shougo/vimshell.vim'
+"Plug 'Shougo/vimshell.vim'
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-sleuth'
 Plug 'junegunn/vim-easy-align'
-Plug 'stephpy/vim-php-cs-fixer'
 
-"Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install' }
 
 Plug 'majutsushi/tagbar'
 Plug 'pangloss/vim-javascript'
@@ -46,26 +44,31 @@ Plug 'Raimondi/delimitMate'
 Plug 'ap/vim-css-color'
 Plug 'gregsexton/MatchTag'
 Plug 'airblade/vim-rooter'
-"Plug 'm2mdas/phpcomplete-extended'
-" Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
 
 
-Plug 'othree/html5.vim', { 'for': 'html' }
+Plug 'othree/html5.vim'
 Plug 'Lokaltog/vim-easymotion'
 
 "Plug 'sjl/gundo.vim'
 "Plug 'simnalamburt/vim-mundo'
 
+"Plug '2072/PHP-Indenting-for-VIm'
+"Plug 'm2mdas/phpcomplete-extended'
+"Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
+"Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install' }
+
 Plug 'alvan/vim-php-manual', {'for': 'php' }
 Plug 'StanAngeloff/php.vim', { 'for': 'php' }
 Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' }
-
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+Plug 'captbaritone/better-indent-support-for-php-with-html'
+Plug 'stephpy/vim-php-cs-fixer'
+Plug 'vim-php/tagbar-phpctags.vim'
 
 "Plug 'modess/vim-phpcolors'
-"Plug 'rafaelndev/deoplete-laravel-plugin', {'for': ['php'], 'do': 'composer install'}
 "Plug 'YankRing.vim'
-Plug 'rking/ag.vim'
+"Plug 'rking/ag.vim'
+"Plug 'mileszs/ack.vim'
 Plug 'dyng/ctrlsf.vim'
 Plug 'terryma/vim-multiple-cursors'
 
@@ -74,7 +77,6 @@ Plug 'jwalton512/vim-blade'
 Plug 'kshenoy/vim-signature'
 
 Plug 'terryma/vim-expand-region'
-Plug 'vim-php/tagbar-phpctags.vim'
 Plug 'ludovicchabant/vim-gutentags'
 "Plug 'jsfaint/gen_tags.vim'
 
@@ -82,10 +84,12 @@ Plug '/usr/local/opt/fzf'
 
 Plug 'junegunn/fzf.vim'
 
-Plug 'vim-scripts/DoxygenToolkit.vim'
+Plug 'pbogut/fzf-mru.vim'
 
-Plug 'wellle/targets.vim'
+"Plug 'vim-scripts/DoxygenToolkit.vim'
 
+"Plug 'wellle/targets.vim'
+Plug 'kana/vim-textobj-user'
 Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
@@ -131,6 +135,7 @@ let NERDTreeDirArrows = 1
 nmap <F7> :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
 let g:tagbar_phpctags_bin='~/.config/nvim/phpctags'
+
 
 " 忽略文件
 let NERDTreeIgnore=[
@@ -219,6 +224,8 @@ let g:ctrlsf_auto_close = 1
 let g:ctrlsf_default_root = 'project'
 let g:ctrlsf_indent = 2
 let g:ctrlsf_winsize = '50%'
+
+let g:ctrlsf_search_mode = 'async'
 
 nmap     <Leader>s <Plug>CtrlSFPrompt
 vmap     <Leader>s <Plug>CtrlSFVwordPath
@@ -387,7 +394,7 @@ function! PotionCompileAndRunFile()
     execute "!" . g:potion_command . " %:p"
 endfunction
 
-nnoremap <silent> <leader>f :call PotionCompileAndRunFile()<CR>
+"nnoremap <silent> <leader>f :call PotionCompileAndRunFile()<CR>
 
 
 "PHPCD
@@ -429,6 +436,8 @@ nnoremap <silent><leader>pcf :w \| :call PhpCsFixerFixFile()<CR>
 
 " fzf settings -------------------------------------------------------
 
+" [Buffers] Jump to the existing window if possible
+let g:fzf_buffers_jump = 1
 " Customize fzf colors to match your color scheme
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
@@ -455,18 +464,18 @@ nmap <silent> <Space>f :<C-u>FZF ~/Vagrant<CR>
 nmap <silent> <Space>c :<C-u>FZF<CR>
 nmap <silent> <Space>b :<C-u>FZFNeigh<CR>
 
-command! FZFMru call fzf#run({
-\ 'source':  reverse(s:all_files()),
-\ 'sink':    'edit',
-\ 'options': '-m -x +s',
-\ 'down':    '60%' })
+"command! FZFMru call fzf#run({
+"\ 'source':  reverse(s:all_files()),
+"\ 'sink':    'edit',
+"\ 'options': '-m -x +s',
+"\ 'down':    '60%' })
 
-function! s:all_files()
-  return extend(
-  \ filter(copy(v:oldfiles),
-  \        "v:val !~ 'fugitive:\\|NERD_tree\\|__CtrlSF__\\|^/tmp/\\|.git/'"),
-  \ map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), 'bufname(v:val)'))
-endfunction
+"function! s:all_files()
+  "return extend(
+  "\ filter(copy(v:oldfiles),
+  "\        "v:val !~ 'fugitive:\\|NERD_tree\\|__CtrlSF__\\|^/tmp/\\|.git/'"),
+  "\ map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), 'bufname(v:val)'))
+"endfunction
 
 " The Silver Searcher
 if executable('ag')
@@ -483,7 +492,7 @@ function! s:fzf_neighbouring_files()
         \ 'source': command,
         \ 'sink':   'e',
         \ 'options': '-m -x +s',
-        \ 'window':  'enew' })
+        \ 'down':  '40%' })
 endfunction
 
 command! FZFNeigh call s:fzf_neighbouring_files()
@@ -492,3 +501,51 @@ command! FZFNeigh call s:fzf_neighbouring_files()
 
 nmap ea <Plug>(EasyAlign)
 xmap ea <Plug>(EasyAlign)
+
+
+" ------------------------------------------------------ vim-php-namespace --
+function! IPhpInsertUse()
+    call PhpInsertUse()
+    call feedkeys('a',  'n')
+endfunction
+
+function! IPhpExpandClass()
+        call PhpExpandClass()
+        call feedkeys('a', 'n')
+endfunction
+
+autocmd FileType php inoremap <Leader>pu <Esc>:call IPhpInsertUse()<CR>
+autocmd FileType php noremap <Leader>pu :call PhpInsertUse()<CR>
+
+autocmd FileType php inoremap <Leader>pc <Esc>:call IPhpExpandClass()<CR>
+autocmd FileType php noremap <Leader>pc :call PhpExpandClass()<CR>
+
+autocmd FileType php inoremap <Leader>ps <Esc>:call PhpSortUse()<CR>
+autocmd FileType php noremap <Leader>ps :call PhpSortUse()<CR>
+
+"vim-textobj-user
+call textobj#user#plugin('phpfunction', {
+\   '-': {
+\     'select-i-function': 'CurrentPhpFunctionI',
+\     'select-i': 'if',
+\   },
+\ })
+
+function! CurrentPhpFunctionI()
+  if getline('.') =~# '}'
+    normal! k
+  endif
+  normal! ]M$
+  let e = getpos('.')
+
+  normal! [m
+  call search(')', 'bW')
+  normal! %0
+  let b = getpos('.')
+
+  if 1 < e[1] - b[1]  " is there some code?
+    return ['V', b, e]
+  else
+    return 0
+  endif
+endfunction
