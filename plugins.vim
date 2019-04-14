@@ -17,7 +17,7 @@ Plug 'junegunn/vim-easy-align'
 
 
 Plug 'majutsushi/tagbar'
-Plug 'pangloss/vim-javascript'
+"Plug 'pangloss/vim-javascript'  "可考虑启用
 "Plug 'wookiehangover/jshint.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -38,20 +38,17 @@ Plug 'mattn/emmet-vim'
 
 "Plug 'mhinz/vim-startify'
 
-
 Plug 'Raimondi/delimitMate'
 
 Plug 'ap/vim-css-color'
 Plug 'gregsexton/MatchTag'
 Plug 'airblade/vim-rooter'
 
-
-Plug 'othree/html5.vim'
+"Plug 'othree/html5.vim' "可考虑启用
 Plug 'Lokaltog/vim-easymotion'
 
 "Plug 'sjl/gundo.vim'
 "Plug 'simnalamburt/vim-mundo'
-
 "Plug '2072/PHP-Indenting-for-VIm'
 "Plug 'm2mdas/phpcomplete-extended'
 "Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
@@ -59,26 +56,32 @@ Plug 'Lokaltog/vim-easymotion'
 
 Plug 'alvan/vim-php-manual', {'for': 'php' }
 Plug 'StanAngeloff/php.vim', { 'for': 'php' }
-Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' }
+"Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' }
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 Plug 'captbaritone/better-indent-support-for-php-with-html'
 Plug 'stephpy/vim-php-cs-fixer'
 Plug 'vim-php/tagbar-phpctags.vim'
+"Plug 'MrAlejandro/vim-phpdoc'
 
-"Plug 'modess/vim-phpcolors'
-"Plug 'YankRing.vim'
+"这三组合头信息插件
+"Plug 'tobyS/vmustache'
+"Plug 'SirVer/ultisnips'
+"Plug 'tobyS/pdv'
+
+"头信息插件
+Plug 'Rican7/php-doc-modded'
+
 "Plug 'rking/ag.vim'
 "Plug 'mileszs/ack.vim'
 Plug 'dyng/ctrlsf.vim'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'djoshea/vim-autoread'
 
+"Plug 'jwalton512/vim-blade'
+"Plug 'kshenoy/vim-signature'  "可考虑启用
 
-Plug 'jwalton512/vim-blade'
-Plug 'kshenoy/vim-signature'
-
-Plug 'terryma/vim-expand-region'
+"Plug 'terryma/vim-expand-region'  "可考虑启用
 Plug 'ludovicchabant/vim-gutentags'
-"Plug 'jsfaint/gen_tags.vim'
 
 Plug '/usr/local/opt/fzf'
 
@@ -86,9 +89,6 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'pbogut/fzf-mru.vim'
 
-"Plug 'vim-scripts/DoxygenToolkit.vim'
-
-"Plug 'wellle/targets.vim'
 Plug 'kana/vim-textobj-user'
 Plug 'ryanoasis/vim-devicons'
 
@@ -278,13 +278,6 @@ noremap <silent><expr> zg? incsearch#go(<SID>config_fuzzyall({'is_stay': 1}))
 "YRShow
 "nnoremap <silent> <F9> :YRShow<CR>
 
-"PHP namespace
-function! IPhpInsertUse()
-    call PhpInsertUse()
-    call feedkeys('a',  'n')
-endfunction
-autocmd FileType php inoremap <Leader>n <Esc>:call IPhpInsertUse()<CR>
-autocmd FileType php noremap <Leader>n :call PhpInsertUse()<CR>
 
 "交换窗口
 function! MarkWindowSwap()
@@ -396,7 +389,6 @@ endfunction
 
 "nnoremap <silent> <leader>f :call PotionCompileAndRunFile()<CR>
 
-
 "PHPCD
 let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
 let g:deoplete#ignore_sources.php = ['omni']
@@ -431,7 +423,9 @@ let g:php_cs_fixer_verbose = 0
 "autocmd BufWritePost *.php silent! call PhpCsFixerFixFile()
 
 nnoremap <silent><leader>pcd :call PhpCsFixerFixDirectory()<CR>
-nnoremap <silent><leader>pcf :w \| :call PhpCsFixerFixFile()<CR>
+"nnoremap <silent><leader>pcf :w \| :call PhpCsFixerFixFile()<CR>
+nnoremap <silent> <leader>f :w \| :call PhpCsFixerFixFile()<CR><CR>
+
 
 
 " fzf settings -------------------------------------------------------
@@ -477,6 +471,24 @@ nmap <silent> <Space>b :<C-u>FZFNeigh<CR>
   "\ map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), 'bufname(v:val)'))
 "endfunction
 
+
+let g:fzf_layout = { 'window': 'let g:launching_fzf = 1 | keepalt topleft 100split enew' }
+
+autocmd FileType nerdtree let t:nerdtree_winnr = bufwinnr('%')
+autocmd BufWinEnter * call PreventBuffersInNERDTree()
+
+function! PreventBuffersInNERDTree()
+  if bufname('#') =~ 'NERD_tree' && bufname('%') !~ 'NERD_tree'
+    \ && exists('t:nerdtree_winnr') && bufwinnr('%') == t:nerdtree_winnr
+    \ && &buftype == '' && !exists('g:launching_fzf')
+    let bufnum = bufnr('%')
+    close
+    exe 'b ' . bufnum
+  endif
+  if exists('g:launching_fzf') | unlet g:launching_fzf | endif
+endfunction
+
+
 " The Silver Searcher
 if executable('ag')
   let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
@@ -504,24 +516,24 @@ xmap ea <Plug>(EasyAlign)
 
 
 " ------------------------------------------------------ vim-php-namespace --
-function! IPhpInsertUse()
-    call PhpInsertUse()
-    call feedkeys('a',  'n')
-endfunction
+"function! IPhpInsertUse()
+    "call PhpInsertUse()
+    "call feedkeys('a',  'n')
+"endfunction
 
-function! IPhpExpandClass()
-        call PhpExpandClass()
-        call feedkeys('a', 'n')
-endfunction
+"function! IPhpExpandClass()
+        "call PhpExpandClass()
+        "call feedkeys('a', 'n')
+"endfunction
 
-autocmd FileType php inoremap <Leader>pu <Esc>:call IPhpInsertUse()<CR>
-autocmd FileType php noremap <Leader>pu :call PhpInsertUse()<CR>
+"autocmd FileType php inoremap <Leader>pu <Esc>:call IPhpInsertUse()<CR>
+"autocmd FileType php noremap <Leader>pu :call PhpInsertUse()<CR>
 
-autocmd FileType php inoremap <Leader>pc <Esc>:call IPhpExpandClass()<CR>
-autocmd FileType php noremap <Leader>pc :call PhpExpandClass()<CR>
+"autocmd FileType php inoremap <Leader>pc <Esc>:call IPhpExpandClass()<CR>
+"autocmd FileType php noremap <Leader>pc :call PhpExpandClass()<CR>
 
-autocmd FileType php inoremap <Leader>ps <Esc>:call PhpSortUse()<CR>
-autocmd FileType php noremap <Leader>ps :call PhpSortUse()<CR>
+"autocmd FileType php inoremap <Leader>ps <Esc>:call PhpSortUse()<CR>
+"autocmd FileType php noremap <Leader>ps :call PhpSortUse()<CR>
 
 "vim-textobj-user
 call textobj#user#plugin('phpfunction', {
@@ -549,3 +561,14 @@ function! CurrentPhpFunctionI()
     return 0
   endif
 endfunction
+
+"""pdv
+"let g:pdv_template_dir = $HOME . "/.config/nvim/plugged/pdv/templates_snip"
+"nnoremap <buffer> <C-p> :call pdv#DocumentWithSnip()<CR>
+
+
+"Rican7/php-doc-modded
+"PHP documenter script bound to Control-P
+autocmd FileType php inoremap <C-p> <ESC>:call PhpDocSingle()<CR>i
+autocmd FileType php nnoremap <C-p> :call PhpDocSingle()<CR>
+autocmd FileType php vnoremap <C-p> :call PhpDocRange()<CR>
