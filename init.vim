@@ -1,6 +1,6 @@
 let mapleader = ','
 let g:mapleader = ','
-cd ~/vagrant/
+cd ~/www/
 source $HOME/.config/nvim/ui.vim
 source $HOME/.config/nvim/plugins.vim
 
@@ -14,8 +14,9 @@ set whichwrap+=<,>,h,l,[,] " Wrap arrow keys between lines
 
 "" Encoding
 set encoding=utf-8
-"set fileencoding=utf-8
 set fileencodings=utf-8
+set termencoding=utf-8
+
 set bomb
 set binary
 

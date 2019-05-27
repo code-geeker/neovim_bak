@@ -1,16 +1,13 @@
 
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'dracula/vim'
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-"Plug 'benekastah/neomake', { 'on': ['Neomake'] }
-"Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'honza/vim-snippets'
-"Plug 'Shougo/vimshell.vim'
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-sleuth'
 Plug 'junegunn/vim-easy-align'
@@ -36,10 +33,11 @@ Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/incsearch-fuzzy.vim'
 Plug 'mattn/emmet-vim'
 
-"Plug 'mhinz/vim-startify'
+
+Plug 'mg979/vim-visual-multi'
+
 
 Plug 'Raimondi/delimitMate'
-
 Plug 'ap/vim-css-color'
 Plug 'gregsexton/MatchTag'
 Plug 'airblade/vim-rooter'
@@ -63,18 +61,13 @@ Plug 'stephpy/vim-php-cs-fixer'
 Plug 'vim-php/tagbar-phpctags.vim'
 "Plug 'MrAlejandro/vim-phpdoc'
 
-"这三组合头信息插件
-"Plug 'tobyS/vmustache'
-"Plug 'SirVer/ultisnips'
-"Plug 'tobyS/pdv'
-
 "头信息插件
 Plug 'Rican7/php-doc-modded'
 
 "Plug 'rking/ag.vim'
 "Plug 'mileszs/ack.vim'
 Plug 'dyng/ctrlsf.vim'
-Plug 'terryma/vim-multiple-cursors'
+"Plug 'terryma/vim-multiple-cursors'
 Plug 'djoshea/vim-autoread'
 
 "Plug 'jwalton512/vim-blade'
@@ -101,17 +94,27 @@ let g:python3_host_prog = "/usr/local/bin/python3"
 
 "deoplete
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_smart_case = 1
+"let g:deoplete#enable_smart_case = 1
+" Use smartcase.
+call deoplete#custom#option('smart_case', v:true)
 
-let g:deoplete#keyword_patterns = {}
-let g:deoplete#keyword_patterns.default = '[a-zA-Z_]\w{2,}?'
 
-let g:deoplete#omni_patterns = {}
-let g:deoplete#omni_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+call deoplete#custom#var('around', {
+		\   'mark_above': '[↑]',
+		\   'mark_below': '[↓]',
+		\   'mark_changes': '[*]',
+		\})
 
-let g:deoplete#omni#input_patterns = {}
-let g:deoplete#omni#input_patterns.php =
-			\ '\w+|[^. \t]->\w*|\w+::\w*'
+
+"let g:deoplete#omni_patterns = {}
+"let g:deoplete#omni_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
+
+"let g:deoplete#omni#input_patterns = {}
+"let g:deoplete#omni#input_patterns.php = '\w+|[^. \t]->\w*|\w+::\w*'
+
+"新增19-05-15
+let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
+let g:deoplete#ignore_sources.php = ['omni']
 
 inoremap <expr><Enter>  pumvisible() ? "\<C-y>" : "\<Enter>"
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -122,7 +125,6 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 "autocmd vimenter * NERDTree
 "autocmd VimEnter * wincmd p
 nnoremap <leader>l :NERDTreeFind<CR>
-
 
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
@@ -211,11 +213,11 @@ nmap t <Plug>(easymotion-t2)
 
 
 "multiple-cursors
-let g:multi_cursor_use_default_mapping=0
-let g:multi_cursor_next_key='<C-j>'
-let g:multi_cursor_prev_key='<C-k>'
-let g:multi_cursor_skip_key='<C-x>'
-let g:multi_cursor_quit_key='<Esc>'
+"let g:multi_cursor_use_default_mapping=0
+"let g:multi_cursor_next_key='<C-j>'
+"let g:multi_cursor_prev_key='<C-k>'
+"let g:multi_cursor_skip_key='<C-x>'
+"let g:multi_cursor_quit_key='<Esc>'
 
 
 
@@ -273,10 +275,6 @@ endfunction
 noremap <silent><expr> z/ incsearch#go(<SID>config_fuzzyall())
 noremap <silent><expr> z? incsearch#go(<SID>config_fuzzyall({'command': '?'}))
 noremap <silent><expr> zg? incsearch#go(<SID>config_fuzzyall({'is_stay': 1}))
-
-
-"YRShow
-"nnoremap <silent> <F9> :YRShow<CR>
 
 
 "交换窗口
@@ -370,10 +368,6 @@ function! Relativenum()
 endfunction
 
 
-map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
-map <A-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
-
-
 "ctags
 nnoremap <c-]> g<c-]>
 vnoremap <c-]> g<c-]>
@@ -454,22 +448,9 @@ xmap <leader><tab> <plug>(fzf-maps-x)
 omap <leader><tab> <plug>(fzf-maps-o)
 
 nmap <silent> <Space>m :<C-u>FZFMru<CR>
-nmap <silent> <Space>f :<C-u>FZF ~/Vagrant<CR>
+nmap <silent> <Space>f :<C-u>FZF ~/www<CR>
 nmap <silent> <Space>c :<C-u>FZF<CR>
 nmap <silent> <Space>b :<C-u>FZFNeigh<CR>
-
-"command! FZFMru call fzf#run({
-"\ 'source':  reverse(s:all_files()),
-"\ 'sink':    'edit',
-"\ 'options': '-m -x +s',
-"\ 'down':    '60%' })
-
-"function! s:all_files()
-  "return extend(
-  "\ filter(copy(v:oldfiles),
-  "\        "v:val !~ 'fugitive:\\|NERD_tree\\|__CtrlSF__\\|^/tmp/\\|.git/'"),
-  "\ map(filter(range(1, bufnr('$')), 'buflisted(v:val)'), 'bufname(v:val)'))
-"endfunction
 
 
 let g:fzf_layout = { 'window': 'let g:launching_fzf = 1 | keepalt topleft 100split enew' }
@@ -561,11 +542,6 @@ function! CurrentPhpFunctionI()
     return 0
   endif
 endfunction
-
-"""pdv
-"let g:pdv_template_dir = $HOME . "/.config/nvim/plugged/pdv/templates_snip"
-"nnoremap <buffer> <C-p> :call pdv#DocumentWithSnip()<CR>
-
 
 "Rican7/php-doc-modded
 "PHP documenter script bound to Control-P
