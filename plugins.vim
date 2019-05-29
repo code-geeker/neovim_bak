@@ -33,8 +33,8 @@ Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/incsearch-fuzzy.vim'
 Plug 'mattn/emmet-vim'
 
-
 Plug 'mg979/vim-visual-multi'
+"Plug 'w0rp/ale'
 
 
 Plug 'Raimondi/delimitMate'
@@ -45,21 +45,13 @@ Plug 'airblade/vim-rooter'
 "Plug 'othree/html5.vim' "可考虑启用
 Plug 'Lokaltog/vim-easymotion'
 
-"Plug 'sjl/gundo.vim'
-"Plug 'simnalamburt/vim-mundo'
-"Plug '2072/PHP-Indenting-for-VIm'
-"Plug 'm2mdas/phpcomplete-extended'
-"Plug 'shawncplus/phpcomplete.vim', { 'for': 'php' }
-"Plug 'padawan-php/deoplete-padawan', { 'do': 'composer install' }
 
 Plug 'alvan/vim-php-manual', {'for': 'php' }
 Plug 'StanAngeloff/php.vim', { 'for': 'php' }
-"Plug 'arnaud-lb/vim-php-namespace', { 'for': 'php' }
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 Plug 'captbaritone/better-indent-support-for-php-with-html'
 Plug 'stephpy/vim-php-cs-fixer'
 Plug 'vim-php/tagbar-phpctags.vim'
-"Plug 'MrAlejandro/vim-phpdoc'
 
 "头信息插件
 Plug 'Rican7/php-doc-modded'
@@ -67,19 +59,15 @@ Plug 'Rican7/php-doc-modded'
 "Plug 'rking/ag.vim'
 "Plug 'mileszs/ack.vim'
 Plug 'dyng/ctrlsf.vim'
-"Plug 'terryma/vim-multiple-cursors'
 Plug 'djoshea/vim-autoread'
 
-"Plug 'jwalton512/vim-blade'
 "Plug 'kshenoy/vim-signature'  "可考虑启用
 
 "Plug 'terryma/vim-expand-region'  "可考虑启用
 Plug 'ludovicchabant/vim-gutentags'
 
 Plug '/usr/local/opt/fzf'
-
 Plug 'junegunn/fzf.vim'
-
 Plug 'pbogut/fzf-mru.vim'
 
 Plug 'kana/vim-textobj-user'
@@ -87,34 +75,28 @@ Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
-" phpcomplete_extended
-"let g:phpcomplete_index_composer_command = '/usr/local/bin/composer'
-
 let g:python3_host_prog = "/usr/local/bin/python3"
 
 "deoplete
 let g:deoplete#enable_at_startup = 1
-"let g:deoplete#enable_smart_case = 1
+
 " Use smartcase.
 call deoplete#custom#option('smart_case', v:true)
-
-
 call deoplete#custom#var('around', {
 		\   'mark_above': '[↑]',
 		\   'mark_below': '[↓]',
 		\   'mark_changes': '[*]',
 		\})
 
-
 "let g:deoplete#omni_patterns = {}
 "let g:deoplete#omni_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-
 "let g:deoplete#omni#input_patterns = {}
 "let g:deoplete#omni#input_patterns.php = '\w+|[^. \t]->\w*|\w+::\w*'
 
 "新增19-05-15
+"PHPCD
 let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
-let g:deoplete#ignore_sources.php = ['omni']
+let g:deoplete#ignore_sources.php = ['omni','buffer']
 
 inoremap <expr><Enter>  pumvisible() ? "\<C-y>" : "\<Enter>"
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -179,13 +161,13 @@ nmap <Space>9 <Plug>AirlineSelectTab9
 
 " emmet
 let g:user_emmet_mode           = 'a'
-"let g:user_emmet_install_global = 0
 let g:user_emmet_leader_key     = '<C-e>'
 
 " delimitMate
 let g:delimitMate_expand_cr = 1
 let g:delimitMate_expand_space = 1
 let g:delimitMate_jump_expansion = 1
+
 
 " syntastic 配置
 "set statusline+=%#warningmsg#
@@ -206,11 +188,38 @@ let g:syntastic_php_checkers = ['php']
 " let g:syntastic_loc_list_height = 5
 " let g:syntastic_enable_highlighting = 0
 
+
+
+
+
+"ALE配置
+"https://albert.cx/20190104-vim-for-php-development
+"let g:ale_linters = {'php': ['php', 'langserver', 'phan']}
+
+"let g:ale_fixers = {
+"\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+"\   'php': ['php_cs_fixer'],
+"\}
+"let g:ale_fix_on_save = 1
+"let g:ale_php_langserver_executable = expand('~/.composer/vendor/bin/php-language-server.php')
+
+function ALELSPMappings()
+  let l:lsp_found=0
+  for l:linter in ale#linter#Get(&filetype) | if !empty(l:linter.lsp) | let l:lsp_found=1 | endif | endfor
+  if (l:lsp_found)
+    nnoremap <buffer> <C-j> :ALEGoToDefinition<CR>
+    nnoremap <buffer> <C-b> :ALEFindReferences<CR>
+  else
+    silent! unmap <buffer> <C-j>
+    silent! unmap <buffer> <C-b>
+  endif
+endfunction
+"autocmd BufRead,FileType * call ALELSPMappings()
+
 " vim-easymotion
 "map <Leader> <Plug>(easymotion-prefix)
 nmap s <Plug>(easymotion-s2)
 nmap t <Plug>(easymotion-t2)
-
 
 "multiple-cursors
 "let g:multi_cursor_use_default_mapping=0
@@ -218,8 +227,6 @@ nmap t <Plug>(easymotion-t2)
 "let g:multi_cursor_prev_key='<C-k>'
 "let g:multi_cursor_skip_key='<C-x>'
 "let g:multi_cursor_quit_key='<Esc>'
-
-
 
 "CtrlSF 插件配置
 let g:ctrlsf_auto_close = 1
@@ -249,18 +256,6 @@ let g:neosnippet#enable_snipmate_compatibility = 1
 
 " Tell Neosnippet about the other snippets
 let g:neosnippet#snippets_directory='~/.config/nvim/plugged/vim-snippets/snippets'
-
-
-"devicons
-"let g:WebDevIconsUnicodeDecorateFolderNodes=1
-"let g:WebDevIconsNerdTreeAfterGlyphPadding=''
-"let g:WebDevIconsNerdTreeGitPluginForceVAlign=0
-
-"if exists('g:loaded_webdevicons')
-    "call webdevicons#refresh()
-"endif
-
-
 
 "fuzzy search
 function! s:config_fuzzyall(...) abort
@@ -324,9 +319,9 @@ let g:gutentags_cache_dir = s:vim_tags
 
 
 "vim-expand-region
-
 vmap v <Plug>(expand_region_expand)
 vmap <C-v> <Plug>(expand_region_shrink)
+
 
 
 
@@ -372,6 +367,8 @@ endfunction
 nnoremap <c-]> g<c-]>
 vnoremap <c-]> g<c-]>
 
+
+
 if !exists("g:potion_command")
     let g:potion_command = "/Applications/PhpStorm.app/Contents/bin/format.sh -s ~/.vim/zgia.xml"
 endif
@@ -382,11 +379,6 @@ function! PotionCompileAndRunFile()
 endfunction
 
 "nnoremap <silent> <leader>f :call PotionCompileAndRunFile()<CR>
-
-"PHPCD
-let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
-let g:deoplete#ignore_sources.php = ['omni']
-
 
 "vim-devicons
 " NERDTress File highlighting
@@ -490,31 +482,9 @@ endfunction
 
 command! FZFNeigh call s:fzf_neighbouring_files()
 
-
-
 nmap ea <Plug>(EasyAlign)
 xmap ea <Plug>(EasyAlign)
 
-
-" ------------------------------------------------------ vim-php-namespace --
-"function! IPhpInsertUse()
-    "call PhpInsertUse()
-    "call feedkeys('a',  'n')
-"endfunction
-
-"function! IPhpExpandClass()
-        "call PhpExpandClass()
-        "call feedkeys('a', 'n')
-"endfunction
-
-"autocmd FileType php inoremap <Leader>pu <Esc>:call IPhpInsertUse()<CR>
-"autocmd FileType php noremap <Leader>pu :call PhpInsertUse()<CR>
-
-"autocmd FileType php inoremap <Leader>pc <Esc>:call IPhpExpandClass()<CR>
-"autocmd FileType php noremap <Leader>pc :call PhpExpandClass()<CR>
-
-"autocmd FileType php inoremap <Leader>ps <Esc>:call PhpSortUse()<CR>
-"autocmd FileType php noremap <Leader>ps :call PhpSortUse()<CR>
 
 "vim-textobj-user
 call textobj#user#plugin('phpfunction', {
@@ -542,6 +512,7 @@ function! CurrentPhpFunctionI()
     return 0
   endif
 endfunction
+
 
 "Rican7/php-doc-modded
 "PHP documenter script bound to Control-P

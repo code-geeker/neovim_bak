@@ -1,8 +1,15 @@
+if empty(glob('~/.config/nvim/autoload/plug.vim'))
+    silent !curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    autocmd!
+    autocmd VimEnter * PlugInstall
+endif
+
 let mapleader = ','
 let g:mapleader = ','
 cd ~/www/
-source $HOME/.config/nvim/ui.vim
 source $HOME/.config/nvim/plugins.vim
+source $HOME/.config/nvim/ui.vim
 
 
 filetype plugin indent on
