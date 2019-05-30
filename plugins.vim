@@ -5,6 +5,7 @@ Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'honza/vim-snippets'
@@ -15,8 +16,7 @@ Plug 'junegunn/vim-easy-align'
 
 Plug 'majutsushi/tagbar'
 "Plug 'pangloss/vim-javascript'  "可考虑启用
-"Plug 'wookiehangover/jshint.vim'
-Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree', {'on': ['NERDTree', 'NERDTreeFocus', 'NERDTreeToggle', 'NERDTreeCWD', 'NERDTreeFind'] }
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 Plug 'scrooloose/syntastic'
@@ -34,7 +34,6 @@ Plug 'haya14busa/incsearch-fuzzy.vim'
 Plug 'mattn/emmet-vim'
 
 Plug 'mg979/vim-visual-multi'
-"Plug 'w0rp/ale'
 
 
 Plug 'Raimondi/delimitMate'
@@ -65,6 +64,7 @@ Plug 'djoshea/vim-autoread'
 
 "Plug 'terryma/vim-expand-region'  "可考虑启用
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'skywind3000/gutentags_plus'
 
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
@@ -88,15 +88,6 @@ call deoplete#custom#var('around', {
 		\   'mark_changes': '[*]',
 		\})
 
-"let g:deoplete#omni_patterns = {}
-"let g:deoplete#omni_patterns.php = '\h\w*\|[^. \t]->\%(\h\w*\)\?\|\h\w*::\%(\h\w*\)\?'
-"let g:deoplete#omni#input_patterns = {}
-"let g:deoplete#omni#input_patterns.php = '\w+|[^. \t]->\w*|\w+::\w*'
-
-"新增19-05-15
-"PHPCD
-let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
-let g:deoplete#ignore_sources.php = ['omni','buffer']
 
 inoremap <expr><Enter>  pumvisible() ? "\<C-y>" : "\<Enter>"
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -132,20 +123,24 @@ let NERDTreeIgnore=[
 
 nmap <F6> :NERDTreeToggle<CR>
 
-
 let NERDTreeAutoDeleteBuffer = 1
 
-
 "airline
+" PLUGIN: Airline {{{
+
+let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#tabline#buffer_nr_format = '%s:'
 let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline#extensions#tabline#show_tabs=0
 
-let g:airline#extensions#whitespace#enabled = 0
+"let g:airline#extensions#whitespace#enabled = 0
+let g:airline#extensions#whitespace#checks = ['indent', 'trailing', 'mixed-indent-file']
+let g:airline#extensions#whitespace#trailing_format = 't[%s]'
+let g:airline#extensions#whitespace#mixed_indent_format = 'i[%s]'
+let g:airline#extensions#whitespace#mixed_indent_file_format = 'i[%s]'
 
 
 nmap <Space>1 <Plug>AirlineSelectTab1
@@ -158,6 +153,8 @@ nmap <Space>7 <Plug>AirlineSelectTab7
 nmap <Space>8 <Plug>AirlineSelectTab8
 nmap <Space>9 <Plug>AirlineSelectTab9
 
+
+" Airline End }}}
 
 " emmet
 let g:user_emmet_mode           = 'a'
@@ -187,34 +184,6 @@ let g:syntastic_php_checkers = ['php']
 " let g:syntastic_auto_loc_list = 1
 " let g:syntastic_loc_list_height = 5
 " let g:syntastic_enable_highlighting = 0
-
-
-
-
-
-"ALE配置
-"https://albert.cx/20190104-vim-for-php-development
-"let g:ale_linters = {'php': ['php', 'langserver', 'phan']}
-
-"let g:ale_fixers = {
-"\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-"\   'php': ['php_cs_fixer'],
-"\}
-"let g:ale_fix_on_save = 1
-"let g:ale_php_langserver_executable = expand('~/.composer/vendor/bin/php-language-server.php')
-
-function ALELSPMappings()
-  let l:lsp_found=0
-  for l:linter in ale#linter#Get(&filetype) | if !empty(l:linter.lsp) | let l:lsp_found=1 | endif | endfor
-  if (l:lsp_found)
-    nnoremap <buffer> <C-j> :ALEGoToDefinition<CR>
-    nnoremap <buffer> <C-b> :ALEFindReferences<CR>
-  else
-    silent! unmap <buffer> <C-j>
-    silent! unmap <buffer> <C-b>
-  endif
-endfunction
-"autocmd BufRead,FileType * call ALELSPMappings()
 
 " vim-easymotion
 "map <Leader> <Plug>(easymotion-prefix)
@@ -271,32 +240,39 @@ noremap <silent><expr> z/ incsearch#go(<SID>config_fuzzyall())
 noremap <silent><expr> z? incsearch#go(<SID>config_fuzzyall({'command': '?'}))
 noremap <silent><expr> zg? incsearch#go(<SID>config_fuzzyall({'is_stay': 1}))
 
-
-"交换窗口
-function! MarkWindowSwap()
-    let g:markedWinNum = winnr()
-endfunction
-
-function! DoWindowSwap()
-    "Mark destination
-    let curNum = winnr()
-    let curBuf = bufnr( "%" )
-    exe g:markedWinNum . "wincmd w"
-    "Switch to source and shuffle dest->source
-    let markedBuf = bufnr( "%" )
-    "Hide and open so that we aren't prompted and keep history
-    exe 'hide buf' curBuf
-    "Switch to dest and shuffle source->dest
-    exe curNum . "wincmd w"
-    "Hide and open so that we aren't prompted and keep history
-    exe 'hide buf' markedBuf
-endfunction
-
-nmap <silent> <leader>mw :call MarkWindowSwap()<CR>
-nmap <silent> <leader>pw :call DoWindowSwap()<CR>
-
-
 " ==== gutentags settings ====
+set cscopeprg='gtags-cscope'
+
+
+function! GetGutentagsStatus(mods) abort
+    let l:msg = ''
+    if index(a:mods, 'ctags') >= 0
+       let l:msg .= '♨'
+     endif
+     if index(a:mods, 'cscope') >= 0
+       let l:msg .= '♺'
+     endif
+     return l:msg
+endfunction
+
+let g:airline#extensions#gutentags#enabled = 0
+
+function! AirlineGutentagsPart()
+  return gutentags#statusline_cb(function('GetGutentagsStatus'))
+endfunction
+
+call airline#parts#define_function('_gutentags', 'AirlineGutentagsPart')
+call airline#parts#define_accent('_gutentags', 'bold')
+
+let g:airline_section_x = airline#section#create(['_gutentags'])
+
+let g:gutentags_modules = []
+if executable('gtags-cscope') && executable('gtags')
+    let g:gutentags_modules += ['gtags_cscope']
+endif
+if executable('ctags')
+    let g:gutentags_modules += ['ctags']
+endif
 
 let g:gutentags_project_root = [ 'composer.json', '.git', '.env' ]
 
@@ -305,24 +281,34 @@ let g:gutentags_ctags_tagfile = 'tags'
 let g:gutentags_ctags_exclude = ['*.css', '*.html', '*.js',"build", ".git", "node_modules", "*.config/nvim/plugged/*"]
 
 " 配置 ctags 的参数
-let g:gutentags_ctags_extra_args = ['--languages=php','--php-kinds=ctifnv','--fields=+aimS']
+let g:gutentags_ctags_extra_args = ['--languages=php','--php-kinds=+ctdifnvj','--fields=+naizmS','--extra=+q']
 
 " Where to store tag files
 let s:vim_tags = expand('~/.cache/tags')
 if !isdirectory(s:vim_tags)
-   silent! call mkdir(s:vim_tags, 'p')
+  silent! call mkdir(s:vim_tags, 'p')
 endif
 
 let g:gutentags_cache_dir = s:vim_tags
 
+let $GTAGSLABEL = 'native-pygments'
+let $GTAGSCONF = '/usr/local/share/gtags/gtags.conf'
+" 禁用 gutentags 自动加载 gtags 数据库的行为
+" 避免多个项目数据库相互干扰
+" 使用plus插件解决问题
+let g:gutentags_auto_add_gtags_cscope = 0
+" change focus to quickfix window after search (optional).
+let g:gutentags_plus_switch = 1
+"disable the default keymaps by
+let g:gutentags_plus_nomap = 1
+noremap <silent> <leader>gs :GscopeFind s <C-R><C-W><cr>
+noremap <silent> <leader>gg :GscopeFind g <C-R><C-W><cr>
+noremap <silent> <leader>gc :GscopeFind c <C-R><C-W><cr>
+noremap <silent> <leader>gt :GscopeFind t <C-R><C-W><cr>
+noremap <silent> <leader>ge :GscopeFind e <C-R><C-W><cr>
+
+hi QuickFixLine ctermbg=None guibg=None
 " ==== End gutentags settings ====
-
-
-"vim-expand-region
-vmap v <Plug>(expand_region_expand)
-vmap <C-v> <Plug>(expand_region_shrink)
-
-
 
 
 function! s:config_fuzzyall(...) abort
@@ -368,28 +354,13 @@ nnoremap <c-]> g<c-]>
 vnoremap <c-]> g<c-]>
 
 
-
-if !exists("g:potion_command")
-    let g:potion_command = "/Applications/PhpStorm.app/Contents/bin/format.sh -s ~/.vim/zgia.xml"
-endif
-
-function! PotionCompileAndRunFile()
-    silent !clear
-    execute "!" . g:potion_command . " %:p"
-endfunction
-
-"nnoremap <silent> <leader>f :call PotionCompileAndRunFile()<CR>
-
 "vim-devicons
 " NERDTress File highlighting
 let g:webdevicons_enable = 1
 
-
-
 if exists("g:loaded_webdevicons")
     call webdevicons#refresh()
 endif
-
 
 
 "undotree
@@ -409,7 +380,6 @@ let g:php_cs_fixer_verbose = 0
 "autocmd BufWritePost *.php silent! call PhpCsFixerFixFile()
 
 nnoremap <silent><leader>pcd :call PhpCsFixerFixDirectory()<CR>
-"nnoremap <silent><leader>pcf :w \| :call PhpCsFixerFixFile()<CR>
 nnoremap <silent> <leader>f :w \| :call PhpCsFixerFixFile()<CR><CR>
 
 
