@@ -43,14 +43,16 @@ Plug 'airblade/vim-rooter'
 
 "Plug 'othree/html5.vim' "可考虑启用
 Plug 'Lokaltog/vim-easymotion'
+Plug 'terryma/vim-smooth-scroll'
 
 
 Plug 'alvan/vim-php-manual', {'for': 'php' }
 Plug 'StanAngeloff/php.vim', { 'for': 'php' }
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 Plug 'captbaritone/better-indent-support-for-php-with-html'
-Plug 'stephpy/vim-php-cs-fixer'
 Plug 'vim-php/tagbar-phpctags.vim'
+
+Plug 'beanworks/vim-phpfmt'
 
 "头信息插件
 Plug 'Rican7/php-doc-modded'
@@ -167,23 +169,26 @@ let g:delimitMate_jump_expansion = 1
 
 
 " syntastic 配置
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
-"let g:syntastic_javascript_checkers=['jshint']
 
-"let g:syntastic_php_checkers = ['php','phpcs','phpmd']
 let g:syntastic_php_checkers = ['php']
-
- let g:syntastic_error_symbol = '✗'
- let g:syntastic_warning_symbol = '⚠'
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_loc_list_height = 5
+let g:syntastic_php_phpcs_args = '--standard=psr2'
+let g:syntastic_error_symbol = '✗'
+let g:syntastic_warning_symbol = '⚠'
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_loc_list_height = 5
 " let g:syntastic_enable_highlighting = 0
+
+ function! SyntasticCheckHook(errors)
+        if !empty(a:errors)
+            let g:syntastic_loc_list_height = min([len(a:errors), 10])
+        endif
+ endfunction
+
+"SyntasticCheck phpcs
+"SyntasticReset
+autocmd FileType php nnoremap <leader>cs :SyntasticCheck phpcs<cr>
 
 " vim-easymotion
 "map <Leader> <Plug>(easymotion-prefix)
@@ -362,26 +367,13 @@ if exists("g:loaded_webdevicons")
     call webdevicons#refresh()
 endif
 
-
 "undotree
 nnoremap <F5> :UndotreeToggle<cr>
 
+"nnoremap <silent><leader>pcd :call PhpCsFixerFixDirectory()<CR>
 
-" If you use php-cs-fixer version 2.x
-let g:php_cs_fixer_rules = "@PSR2"          " options: --rules (default:@PSR2)
-"let g:php_cs_fixer_cache = ".php_cs.cache" " options: --cache-file
-"let g:php_cs_fixer_config_file = '.php_cs' " options: --config
-" End of php-cs-fixer version 2 config params
-
-let g:php_cs_fixer_php_path = "php"               " Path to PHP
-let g:php_cs_fixer_enable_default_mapping = 1     " Enable the mapping by default (<leader>pcd)
-let g:php_cs_fixer_dry_run = 0                    " Call command with dry-run option
-let g:php_cs_fixer_verbose = 0
-"autocmd BufWritePost *.php silent! call PhpCsFixerFixFile()
-
-nnoremap <silent><leader>pcd :call PhpCsFixerFixDirectory()<CR>
-nnoremap <silent> <leader>f :w \| :call PhpCsFixerFixFile()<CR><CR>
-
+"phpfmt
+let g:phpfmt_standard = 'PSR2'
 
 
 " fzf settings -------------------------------------------------------
@@ -489,3 +481,9 @@ endfunction
 autocmd FileType php inoremap <C-p> <ESC>:call PhpDocSingle()<CR>i
 autocmd FileType php nnoremap <C-p> :call PhpDocSingle()<CR>
 autocmd FileType php vnoremap <C-p> :call PhpDocRange()<CR>
+
+"terryma/vim-smooth-scroll
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 10, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 10, 2)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 10, 4)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 10, 4)<CR>

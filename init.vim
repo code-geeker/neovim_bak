@@ -42,6 +42,9 @@ set shortmess+=I
 set viminfo='100,f1 " Save up to 100 marks, enable capital marks
 set visualbell " Turn off audible bell
 
+"php代码行字符不超120
+"set colorcolumn=120
+au BufNewFile,BufRead *.php setlocal colorcolumn=120
 
 set modifiable
 set wildmenu
