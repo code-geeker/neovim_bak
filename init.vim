@@ -46,6 +46,10 @@ set visualbell " Turn off audible bell
 "set colorcolumn=120
 au BufNewFile,BufRead *.php setlocal colorcolumn=120
 
+" Highlight text over the 80 character limit
+":au BufWinEnter *.php let w:m1=matchadd('Search', '\%<81v.\%>77v', -1)
+":au BufWinEnter *.php let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
+
 set modifiable
 set wildmenu
 set wildmode=longest,list:longest
@@ -105,9 +109,6 @@ set t_Co=256
 "Automatically remove trailing spaces when saving a file.
 autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
 
-" autocmd BufEnter * lcd %:p:h
-
-
 "记录上次关闭的文件及状态
 " set viminfo='10,\"100,:20,%,n~/.viminfo
 au BufReadPost * if line("'\"") > 0|if line("'\"") <= line("$")|exe("norm '\"")|else|exe "norm $"|endif|endif
@@ -136,9 +137,9 @@ let g:php_manual_online_search_shortcut = '<F3>'
 
 
 map <silent> <leader>v :e ~/.config/nvim/init.vim<CR><CR>
-noremap <silent> <leader><leader>v :source ~/.config/nvim/init.vim<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
+noremap <silent> <Space>v :source ~/.config/nvim/init.vim<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
-map <silent> <leader>g :GitGutterLineHighlightsToggle<CR>
+"map <silent> <leader>g :GitGutterLineHighlightsToggle<CR>
 
 " map <leader>h and <leader>l to buffer prev/next buffer
 noremap <Space>h :bp<CR>
@@ -182,11 +183,9 @@ nnoremap <expr> N  'nN'[v:searchforward]
 let php_htmlInStrings = 1
 "let php_sql_query = 1
 
-
-" Highlight text over the 80 character limit
-":au BufWinEnter *.php let w:m1=matchadd('Search', '\%<81v.\%>77v', -1)
-":au BufWinEnter *.php let w:m2=matchadd('ErrorMsg', '\%>80v.\+', -1)
-
+"vim-devicons
+" NERDTress File highlighting
+let g:webdevicons_enable = 1
 
 if exists('g:loaded_webdevicons')
     call webdevicons#refresh()

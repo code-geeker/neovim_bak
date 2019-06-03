@@ -29,8 +29,12 @@ Plug 'tpope/vim-surround'
 Plug 'unblevable/quick-scope'
 Plug 'vim-scripts/matchit.zip'
 Plug 'itchyny/vim-cursorword'
+
+Plug 'Lokaltog/vim-easymotion'
 Plug 'haya14busa/incsearch.vim'
 Plug 'haya14busa/incsearch-fuzzy.vim'
+Plug 'haya14busa/incsearch-easymotion.vim'
+
 Plug 'mattn/emmet-vim'
 
 Plug 'mg979/vim-visual-multi'
@@ -42,7 +46,6 @@ Plug 'gregsexton/MatchTag'
 Plug 'airblade/vim-rooter'
 
 "Plug 'othree/html5.vim' "可考虑启用
-Plug 'Lokaltog/vim-easymotion'
 Plug 'terryma/vim-smooth-scroll'
 
 
@@ -159,8 +162,10 @@ nmap <Space>9 <Plug>AirlineSelectTab9
 " Airline End }}}
 
 " emmet
-let g:user_emmet_mode           = 'a'
+let g:user_emmet_mode='inv'  "enable all functions, which is equal to
 let g:user_emmet_leader_key     = '<C-e>'
+let g:user_emmet_install_global = 0
+autocmd FileType html,css EmmetInstall
 
 " delimitMate
 let g:delimitMate_expand_cr = 1
@@ -188,19 +193,27 @@ let g:syntastic_loc_list_height = 5
 
 "SyntasticCheck phpcs
 "SyntasticReset
-autocmd FileType php nnoremap <leader>cs :SyntasticCheck phpcs<cr>
+autocmd FileType php nnoremap <Space>s :SyntasticCheck phpcs<cr>
+autocmd FileType php nnoremap <Space>r :SyntasticReset <cr>
 
 " vim-easymotion
 "map <Leader> <Plug>(easymotion-prefix)
+
+" Disable default mappings
+let g:EasyMotion_do_mapping = 0
 nmap s <Plug>(easymotion-s2)
 nmap t <Plug>(easymotion-t2)
 
-"multiple-cursors
-"let g:multi_cursor_use_default_mapping=0
-"let g:multi_cursor_next_key='<C-j>'
-"let g:multi_cursor_prev_key='<C-k>'
-"let g:multi_cursor_skip_key='<C-x>'
-"let g:multi_cursor_quit_key='<Esc>'
+" Gif config
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+
+" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
+" Without these mappings, `n` & `N` works fine. (These mappings just provide
+" different highlight method and have some other features )
+map  n <Plug>(easymotion-next)
+map  N <Plug>(easymotion-prev)
+
 
 "CtrlSF 插件配置
 let g:ctrlsf_auto_close = 1
@@ -232,18 +245,30 @@ let g:neosnippet#enable_snipmate_compatibility = 1
 let g:neosnippet#snippets_directory='~/.config/nvim/plugged/vim-snippets/snippets'
 
 "fuzzy search
-function! s:config_fuzzyall(...) abort
+"function! s:config_fuzzyall(...) abort
+  "return extend(copy({
+  "\   'converters': [
+  "\     incsearch#config#fuzzy#converter(),
+  "\     incsearch#config#fuzzyspell#converter()
+  "\   ],
+  "\ }), get(a:, 1, {}))
+"endfunction
+
+"noremap <silent><expr> z/ incsearch#go(<SID>config_fuzzyall())
+"noremap <silent><expr> z? incsearch#go(<SID>config_fuzzyall({'command': '?'}))
+"noremap <silent><expr> zg? incsearch#go(<SID>config_fuzzyall({'is_stay': 1}))
+
+function! s:config_easyfuzzymotion(...) abort
   return extend(copy({
-  \   'converters': [
-  \     incsearch#config#fuzzy#converter(),
-  \     incsearch#config#fuzzyspell#converter()
-  \   ],
+  \   'converters': [incsearch#config#fuzzyword#converter()],
+  \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+  \   'keymap': {"\<CR>": '<Over>(easymotion)'},
+  \   'is_expr': 0,
+  \   'is_stay': 1
   \ }), get(a:, 1, {}))
 endfunction
 
-noremap <silent><expr> z/ incsearch#go(<SID>config_fuzzyall())
-noremap <silent><expr> z? incsearch#go(<SID>config_fuzzyall({'command': '?'}))
-noremap <silent><expr> zg? incsearch#go(<SID>config_fuzzyall({'is_stay': 1}))
+noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
 
 " ==== gutentags settings ====
 set cscopeprg='gtags-cscope'
@@ -357,15 +382,6 @@ endfunction
 "ctags
 nnoremap <c-]> g<c-]>
 vnoremap <c-]> g<c-]>
-
-
-"vim-devicons
-" NERDTress File highlighting
-let g:webdevicons_enable = 1
-
-if exists("g:loaded_webdevicons")
-    call webdevicons#refresh()
-endif
 
 "undotree
 nnoremap <F5> :UndotreeToggle<cr>
@@ -487,3 +503,17 @@ noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 10, 2)<CR>
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 10, 2)<CR>
 noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 10, 4)<CR>
 noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 10, 4)<CR>
+
+
+"nerdcommenter
+let g:NERDCreateDefaultMappings = 0
+
+let NERDSpaceDelims = 1
+let NERDCompactSexyComs = 1
+" let g:NERDAltDelims_php = 1
+nmap ,, <Plug>NERDCommenterToggle
+vmap ,, <Plug>NERDCommenterToggle
+nmap ,cm <Plug>NERDCommenterMinimal
+vmap ,cm <Plug>NERDCommenterMinimal
+nmap ,cu <Plug>NERDCommenterUncomment
+vmap ,cu <Plug>NERDCommenterUncomment
