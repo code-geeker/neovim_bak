@@ -130,6 +130,7 @@ map q: :q
 inoremap jj <ESC>
 inoremap \\ <ESC>
 
+nmap <silent> <Space>w :w<CR>
 
 nnoremap  cc :bp\|bd #<CR><ESC>
 
