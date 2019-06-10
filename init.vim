@@ -104,7 +104,6 @@ set tw=500
 noremap <Leader>m :%s/<C-V><cr>//ge<cr>'tzt'm
 
 set t_Co=256
-"let g:Powerline_symbols = 'fancy'
 
 "Automatically remove trailing spaces when saving a file.
 autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif

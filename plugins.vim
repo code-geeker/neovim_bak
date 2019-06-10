@@ -37,9 +37,6 @@ Plug 'haya14busa/incsearch-easymotion.vim'
 
 Plug 'mattn/emmet-vim'
 
-Plug 'mg979/vim-visual-multi'
-
-
 Plug 'Raimondi/delimitMate'
 Plug 'ap/vim-css-color'
 Plug 'gregsexton/MatchTag'
