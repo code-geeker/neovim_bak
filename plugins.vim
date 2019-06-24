@@ -16,7 +16,8 @@ Plug 'junegunn/vim-easy-align'
 
 Plug 'majutsushi/tagbar'
 "Plug 'pangloss/vim-javascript'  "可考虑启用
-Plug 'scrooloose/nerdtree', {'on': ['NERDTree', 'NERDTreeFocus', 'NERDTreeToggle', 'NERDTreeCWD', 'NERDTreeFind'] }
+" Plug 'scrooloose/nerdtree', {'on': ['NERDTree', 'NERDTreeFocus', 'NERDTreeToggle', 'NERDTreeCWD', 'NERDTreeFind'] }
+Plug 'scrooloose/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 Plug 'scrooloose/syntastic'
@@ -57,8 +58,6 @@ Plug 'beanworks/vim-phpfmt'
 "头信息插件
 Plug 'Rican7/php-doc-modded'
 
-"Plug 'rking/ag.vim'
-"Plug 'mileszs/ack.vim'
 Plug 'dyng/ctrlsf.vim'
 Plug 'djoshea/vim-autoread'
 
@@ -99,7 +98,9 @@ inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 "NERDTree
 "autocmd vimenter * NERDTree
 "autocmd VimEnter * wincmd p
-nnoremap <leader>l :NERDTreeFind<CR>
+" nnoremap <leader>l :NERDTreeFind<CR>
+nnoremap <silent> <expr> <leader>l g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
+inoremap <silent> <expr> <leader>l g:NERDTree.IsOpen() ? "\<C-o>:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\<C-o>:NERDTreeFind<CR>" : "\<C-o>:NERDTree<CR>"
 
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
@@ -155,6 +156,7 @@ nmap <Space>7 <Plug>AirlineSelectTab7
 nmap <Space>8 <Plug>AirlineSelectTab8
 nmap <Space>9 <Plug>AirlineSelectTab9
 
+let g:airline_theme='dark'
 
 " Airline End }}}
 
