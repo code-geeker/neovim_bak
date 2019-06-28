@@ -4,24 +4,24 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'tbodt/deoplete-tabnine', { 'do': './install.sh' }
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'honza/vim-snippets'
+
 Plug 'mbbill/undotree'
 Plug 'tpope/vim-sleuth'
 Plug 'junegunn/vim-easy-align'
+Plug 'scrooloose/nerdcommenter'
 
 
-Plug 'majutsushi/tagbar'
 "Plug 'pangloss/vim-javascript'  "可考虑启用
-" Plug 'scrooloose/nerdtree', {'on': ['NERDTree', 'NERDTreeFocus', 'NERDTreeToggle', 'NERDTreeCWD', 'NERDTreeFind'] }
+Plug 'majutsushi/tagbar'
 Plug 'scrooloose/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
-Plug 'scrooloose/syntastic'
-Plug 'scrooloose/nerdcommenter'
 
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
@@ -47,6 +47,7 @@ Plug 'airblade/vim-rooter'
 Plug 'terryma/vim-smooth-scroll'
 
 
+Plug 'scrooloose/syntastic'
 Plug 'alvan/vim-php-manual', {'for': 'php' }
 Plug 'StanAngeloff/php.vim', { 'for': 'php' }
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
@@ -62,8 +63,6 @@ Plug 'dyng/ctrlsf.vim'
 Plug 'djoshea/vim-autoread'
 
 "Plug 'kshenoy/vim-signature'  "可考虑启用
-
-"Plug 'terryma/vim-expand-region'  "可考虑启用
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'skywind3000/gutentags_plus'
 
