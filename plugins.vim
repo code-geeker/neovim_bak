@@ -50,7 +50,11 @@ Plug 'terryma/vim-smooth-scroll'
 Plug 'scrooloose/syntastic'
 Plug 'alvan/vim-php-manual', {'for': 'php' }
 Plug 'StanAngeloff/php.vim', { 'for': 'php' }
-Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+" Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+
+Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
+Plug 'kristijanhusak/deoplete-phpactor'
+
 Plug 'captbaritone/better-indent-support-for-php-with-html'
 Plug 'vim-php/tagbar-phpctags.vim'
 
@@ -88,10 +92,15 @@ call deoplete#custom#var('around', {
 		\   'mark_changes': '[*]',
 		\})
 
+" autocmd FileType php setlocal omnifunc=phpactor#Complete
 
 inoremap <expr><Enter>  pumvisible() ? "\<C-y>" : "\<Enter>"
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
+
+let g:phpactorPhpBin = 'php'
+let g:phpactorBranch = 'dev'
+let g:phpactorOmniAutoClassImport = v:true
 
 
 "NERDTree
@@ -169,6 +178,11 @@ autocmd FileType html,css EmmetInstall
 let g:delimitMate_expand_cr = 1
 let g:delimitMate_expand_space = 1
 let g:delimitMate_jump_expansion = 1
+
+
+" Root finder
+let g:rooter_patterns = ['.phpactor.yml', 'vendor/', '.git', 'composer.lock']
+let g:rooter_silent_chdir = 1
 
 
 " syntastic 配置

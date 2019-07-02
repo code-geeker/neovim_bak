@@ -180,12 +180,20 @@ nnoremap <expr> N  'nN'[v:searchforward]
 "autocmd BufWritePost init.vim source %
 
 
-let php_htmlInStrings = 1
-"let php_sql_query = 1
+" $VIMRUNTIME/syntax/php.vim
+let g:php_baselib       = 1
+let g:php_htmlInStrings = 1
+let g:php_noShortTags   = 1
+
 
 "vim-devicons
 " NERDTress File highlighting
 let g:webdevicons_enable = 1
+
+let g:WebDevIconsNerdTreeBeforeGlyphPadding = ''
+let g:WebDevIconsUnicodeDecorateFolderNodes = v:true
+let g:NERDTreeDirArrowExpandable = "\u00a0"
+let g:NERDTreeDirArrowCollapsible = "\u00a0"
 
 if exists('g:loaded_webdevicons')
     call webdevicons#refresh()
