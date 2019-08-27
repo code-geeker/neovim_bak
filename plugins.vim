@@ -38,7 +38,7 @@ Plug 'haya14busa/incsearch-easymotion.vim'
 
 Plug 'mattn/emmet-vim'
 
-Plug 'Raimondi/delimitMate'
+" Plug 'Raimondi/delimitMate'
 Plug 'ap/vim-css-color'
 Plug 'gregsexton/MatchTag'
 Plug 'airblade/vim-rooter'
@@ -50,10 +50,10 @@ Plug 'terryma/vim-smooth-scroll'
 Plug 'scrooloose/syntastic'
 Plug 'alvan/vim-php-manual', {'for': 'php' }
 Plug 'StanAngeloff/php.vim', { 'for': 'php' }
-" Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 
-Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
-Plug 'kristijanhusak/deoplete-phpactor'
+" Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
+" Plug 'kristijanhusak/deoplete-phpactor'
 
 Plug 'captbaritone/better-indent-support-for-php-with-html'
 Plug 'vim-php/tagbar-phpctags.vim'
@@ -98,9 +98,9 @@ inoremap <expr><Enter>  pumvisible() ? "\<C-y>" : "\<Enter>"
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
 
-let g:phpactorPhpBin = 'php'
-let g:phpactorBranch = 'dev'
-let g:phpactorOmniAutoClassImport = v:true
+" let g:phpactorPhpBin = 'php'
+" let g:phpactorBranch = 'dev'
+" let g:phpactorOmniAutoClassImport = v:true
 
 
 "NERDTree
@@ -190,6 +190,7 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 let g:syntastic_php_checkers = ['php']
+let g:syntastic_html_checkers = []
 let g:syntastic_php_phpcs_args = '--standard=psr2'
 let g:syntastic_error_symbol = '✗'
 let g:syntastic_warning_symbol = '⚠'
@@ -285,6 +286,7 @@ noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
 " ==== gutentags settings ====
 set cscopeprg='gtags-cscope'
 
+let g:gutentags_define_advanced_commands = 1
 
 function! GetGutentagsStatus(mods) abort
     let l:msg = ''
@@ -323,7 +325,7 @@ let g:gutentags_ctags_tagfile = 'tags'
 let g:gutentags_ctags_exclude = ['*.css', '*.html', '*.js',"build", ".git", "node_modules", "*.config/nvim/plugged/*"]
 
 " 配置 ctags 的参数
-let g:gutentags_ctags_extra_args = ['--languages=php','--php-kinds=+ctdifnvj','--fields=+naizmS','--extra=+q']
+let g:gutentags_ctags_extra_args = ['--languages=php','--php-kinds=+cdifvj','--fields=+naizmS','--extra=+q']
 
 " Where to store tag files
 let s:vim_tags = expand('~/.cache/tags')
