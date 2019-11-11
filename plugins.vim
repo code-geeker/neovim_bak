@@ -16,6 +16,11 @@ Plug 'tpope/vim-sleuth'
 Plug 'junegunn/vim-easy-align'
 Plug 'scrooloose/nerdcommenter'
 
+"go 开发
+
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
+" Plug 'zchee/deoplete-go', { 'do': 'make' }
+
 
 "Plug 'pangloss/vim-javascript'  "可考虑启用
 Plug 'majutsushi/tagbar'
@@ -47,21 +52,22 @@ Plug 'airblade/vim-rooter'
 Plug 'terryma/vim-smooth-scroll'
 
 
-Plug 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic',{'for':'php'}
 Plug 'alvan/vim-php-manual', {'for': 'php' }
 Plug 'StanAngeloff/php.vim', { 'for': 'php' }
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+Plug 'beanworks/vim-phpfmt',{'for': 'php'}
+
+Plug 'captbaritone/better-indent-support-for-php-with-html',{'for': 'php'}
+Plug 'vim-php/tagbar-phpctags.vim',{'for': 'php'}
 
 " Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
 " Plug 'kristijanhusak/deoplete-phpactor'
 
-Plug 'captbaritone/better-indent-support-for-php-with-html'
-Plug 'vim-php/tagbar-phpctags.vim'
 
-Plug 'beanworks/vim-phpfmt'
 
 "头信息插件
-Plug 'Rican7/php-doc-modded'
+Plug 'Rican7/php-doc-modded',{'for':'php'}
 
 Plug 'dyng/ctrlsf.vim'
 Plug 'djoshea/vim-autoread'
@@ -91,17 +97,15 @@ call deoplete#custom#var('around', {
 		\   'mark_below': '[↓]',
 		\   'mark_changes': '[*]',
 		\})
+call deoplete#custom#option('omni_patterns', {
+\ 'go': '[^. *\t]\.\w*',
+\})
 
 " autocmd FileType php setlocal omnifunc=phpactor#Complete
 
 inoremap <expr><Enter>  pumvisible() ? "\<C-y>" : "\<Enter>"
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<S-TAB>"
-
-" let g:phpactorPhpBin = 'php'
-" let g:phpactorBranch = 'dev'
-" let g:phpactorOmniAutoClassImport = v:true
-
 
 "NERDTree
 "autocmd vimenter * NERDTree
@@ -325,7 +329,7 @@ let g:gutentags_ctags_tagfile = 'tags'
 let g:gutentags_ctags_exclude = ['*.css', '*.html', '*.js',"build", ".git", "node_modules", "*.config/nvim/plugged/*"]
 
 " 配置 ctags 的参数
-let g:gutentags_ctags_extra_args = ['--languages=php','--php-kinds=+cdifvj','--fields=+naizmS','--extra=+q']
+let g:gutentags_ctags_extra_args = ['--languages=php','--PHP-kinds=+cdfint-av','--fields=+naizmS','--extra=+q']
 
 " Where to store tag files
 let s:vim_tags = expand('~/.cache/tags')

@@ -28,6 +28,7 @@ set bomb
 set binary
 
 
+
 set autoread " Reload files changed outside vim
 let autosave=30
 set backspace=indent,eol,start " Enable delete over line breaks and automatically-inserted indentation
@@ -35,7 +36,11 @@ set clipboard=unnamed
 "set fileformat=unix " Set unix line endings
 set fileformats=unix,mac,dos
 set hidden " Don't unload buffers when they are abandoned, instead stay in the background
+
+set re=1
+set ttyfast
 set lazyredraw " Screen will not be redrawn while running macros, registers or other non-typed comments
+
 set noerrorbells
 set nospell
 set shortmess+=I
