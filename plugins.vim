@@ -16,9 +16,11 @@ Plug 'tpope/vim-sleuth'
 Plug 'junegunn/vim-easy-align'
 Plug 'scrooloose/nerdcommenter'
 
+Plug 'machakann/vim-highlightedyank'
+
 "go 开发
 
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
+" Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries', 'for': 'go' }
 " Plug 'zchee/deoplete-go', { 'do': 'make' }
 
 
@@ -51,11 +53,13 @@ Plug 'airblade/vim-rooter'
 "Plug 'othree/html5.vim' "可考虑启用
 Plug 'terryma/vim-smooth-scroll'
 
+"language pack
+Plug 'sheerun/vim-polyglot'
 
 Plug 'scrooloose/syntastic',{'for':'php'}
-Plug 'alvan/vim-php-manual', {'for': 'php' }
-Plug 'StanAngeloff/php.vim', { 'for': 'php' }
-Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+Plug 'alvan/vim-php-manual',{'for': 'php'}
+" Plug 'StanAngeloff/php.vim',{'for': 'php'}
+Plug 'lvht/phpcd.vim',{'for': 'php', 'do': 'composer install'}
 Plug 'beanworks/vim-phpfmt',{'for': 'php'}
 
 Plug 'captbaritone/better-indent-support-for-php-with-html',{'for': 'php'}
@@ -63,8 +67,6 @@ Plug 'vim-php/tagbar-phpctags.vim',{'for': 'php'}
 
 " Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
 " Plug 'kristijanhusak/deoplete-phpactor'
-
-
 
 "头信息插件
 Plug 'Rican7/php-doc-modded',{'for':'php'}
@@ -79,12 +81,14 @@ Plug 'skywind3000/gutentags_plus'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'pbogut/fzf-mru.vim'
+Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)'] }
 
 Plug 'kana/vim-textobj-user'
 Plug 'ryanoasis/vim-devicons'
 
 call plug#end()
 
+let g:python_host_prog = '/usr/bin/python2.7'
 let g:python3_host_prog = "/usr/local/bin/python3"
 
 "deoplete
@@ -222,8 +226,9 @@ nmap s <Plug>(easymotion-s2)
 nmap t <Plug>(easymotion-t2)
 
 " Gif config
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
+
+" map  / <Plug>(easymotion-sn)
+" omap / <Plug>(easymotion-tn)
 
 " These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
 " Without these mappings, `n` & `N` works fine. (These mappings just provide
@@ -408,32 +413,13 @@ nnoremap <F5> :UndotreeToggle<cr>
 
 "phpfmt
 let g:phpfmt_standard = 'PSR2'
+let g:phpfmt_command = '/Users/elliot/.composer/vendor/bin/phpcbf'
 
 
 " fzf settings -------------------------------------------------------
 
 " [Buffers] Jump to the existing window if possible
 let g:fzf_buffers_jump = 1
-" Customize fzf colors to match your color scheme
-let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-  \ 'bg':      ['bg', 'Normal'],
-  \ 'hl':      ['fg', 'Comment'],
-  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-  \ 'hl+':     ['fg', 'Statement'],
-  \ 'info':    ['fg', 'PreProc'],
-  \ 'prompt':  ['fg', 'Conditional'],
-  \ 'pointer': ['fg', 'Exception'],
-  \ 'marker':  ['fg', 'Keyword'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header':  ['fg', 'Comment'] }
-
-let g:fzf_layout = { 'down': '~60%' }
-" Mapping selecting mappings
-nmap <leader><tab> <plug>(fzf-maps-n)
-xmap <leader><tab> <plug>(fzf-maps-x)
-omap <leader><tab> <plug>(fzf-maps-o)
 
 nmap <silent> <Space>m :<C-u>FZFMru<CR>
 nmap <silent> <Space>f :<C-u>FZF ~/www<CR>
@@ -535,3 +521,12 @@ nmap ,cm <Plug>NERDCommenterMinimal
 vmap ,cm <Plug>NERDCommenterMinimal
 nmap ,cu <Plug>NERDCommenterUncomment
 vmap ,cu <Plug>NERDCommenterUncomment
+
+
+ " au BufRead,BufNewFile *.inc set filetype=php
+
+"CUSTOMIZING  *surround-customizing*
+
+let g:surround_45 = "{{ trans('table.\r') }}"
+
+let g:surround_47 = "{{ trans('accounts.\r') }}"

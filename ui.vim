@@ -1,4 +1,4 @@
-" colorscheme gruvbox
+" colorscheme onedark
 colorscheme dracula
 "set guifont=Sauce\ Code\ Powerline\ Plus\ Nerd\ File\ Types:h15
 

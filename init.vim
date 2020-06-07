@@ -11,6 +11,12 @@ cd ~/www/
 source $HOME/.config/nvim/plugins.vim
 source $HOME/.config/nvim/ui.vim
 
+" if exists('+termguicolors')
+  " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  " set termguicolors
+" endif
+
 
 filetype plugin indent on
 syntax on
@@ -21,8 +27,9 @@ set whichwrap+=<,>,h,l,[,] " Wrap arrow keys between lines
 
 "" Encoding
 set encoding=utf-8
-set fileencodings=utf-8
 set termencoding=utf-8
+set fileencoding=utf-8
+set fileencodings=utf-8
 
 set bomb
 set binary
