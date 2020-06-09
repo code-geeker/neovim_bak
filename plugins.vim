@@ -1,7 +1,7 @@
 
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'dracula/vim', { 'as': 'dracula' }
+"Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 

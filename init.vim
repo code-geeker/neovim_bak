@@ -64,7 +64,7 @@ au BufNewFile,BufRead *.php setlocal colorcolumn=120
 
 set modifiable
 set wildmenu
-set wildmode=longest,list:longest
+set wildmode=list:longest,full
 set wildignore+=.hg,.git,.svn                    " Version control
 set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
