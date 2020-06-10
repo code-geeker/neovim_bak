@@ -1,7 +1,7 @@
 
 call plug#begin('~/.config/nvim/plugged')
 
-"Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
@@ -182,10 +182,6 @@ let g:user_emmet_leader_key     = '<C-e>'
 let g:user_emmet_install_global = 0
 autocmd FileType html,css EmmetInstall
 
-" delimitMate
-let g:delimitMate_expand_cr = 1
-let g:delimitMate_expand_space = 1
-let g:delimitMate_jump_expansion = 1
 
 
 " Root finder
@@ -524,9 +520,3 @@ vmap ,cu <Plug>NERDCommenterUncomment
 
 
  " au BufRead,BufNewFile *.inc set filetype=php
-
-"CUSTOMIZING  *surround-customizing*
-
-let g:surround_45 = "{{ trans('table.\r') }}"
-
-let g:surround_47 = "{{ trans('accounts.\r') }}"

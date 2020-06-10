@@ -118,7 +118,7 @@ noremap <Leader>m :%s/<C-V><cr>//ge<cr>'tzt'm
 set t_Co=256
 
 "Automatically remove trailing spaces when saving a file.
-autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
+"autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
 
 "记录上次关闭的文件及状态
 " set viminfo='10,\"100,:20,%,n~/.viminfo
